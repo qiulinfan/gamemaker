@@ -1,0 +1,19 @@
+schema_version = 1
+
+[profile]
+id = "multica"
+kind = "orchestrator-adapter"
+enabled_by_default = false
+description = "Optional event-driven issue/run adapter for an already configured Multica client."
+
+[runtime]
+require_existing_configuration = true
+allow_install = false
+allow_server_deploy = false
+polling = false
+
+[dispatch]
+resolve_ids_at_runtime = true
+create_ready_stage_only = true
+deduplicate_active_children = true
+child_done_means_handoff = true

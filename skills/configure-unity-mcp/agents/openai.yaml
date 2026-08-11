@@ -1,0 +1,4 @@
+interface:
+  display_name: "Configure Unity MCP"
+  short_description: "Install, repair, and validate full Unity MCP"
+  default_prompt: "Use $configure-unity-mcp to configure and fully validate Unity MCP for this project."

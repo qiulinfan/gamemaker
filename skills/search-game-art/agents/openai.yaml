@@ -1,0 +1,4 @@
+interface:
+  display_name: "Search Game Art"
+  short_description: "Search source-covered, license-verified game art"
+  default_prompt: "Use $search-game-art to turn the current game design into asset requirements, search across the right source classes, and return license-verified candidates with a coverage record."

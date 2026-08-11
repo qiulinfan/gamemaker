@@ -1,0 +1,4 @@
+interface:
+  display_name: "Iterate Unity Level"
+  short_description: "Deepen and independently validate a Unity level loop"
+  default_prompt: "Use $iterate-unity-level to deepen this working Unity level and verify the complete loop."

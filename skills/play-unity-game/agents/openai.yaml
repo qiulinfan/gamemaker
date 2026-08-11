@@ -1,0 +1,4 @@
+interface:
+  display_name: "Play Unity Game"
+  short_description: "Play Unity scenes and report reproducible gameplay findings"
+  default_prompt: "Use $play-unity-game to play the current Unity build and report reproducible gameplay findings."

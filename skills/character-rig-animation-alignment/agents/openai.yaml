@@ -1,0 +1,4 @@
+interface:
+  display_name: "Character Rig & Animation Alignment"
+  short_description: "Ship verified humanoid animation and render alignment"
+  default_prompt: "Use $character-rig-animation-alignment to align this character with external animations and verify its rig, materials, prefab, and runtime result in the target engine."

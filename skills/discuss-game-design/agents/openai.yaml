@@ -1,0 +1,4 @@
+interface:
+  display_name: "Discuss Game Design"
+  short_description: "Discuss source-grounded, testable game design decisions"
+  default_prompt: "Use $discuss-game-design to read the current design documents and evaluate the next game design decision."

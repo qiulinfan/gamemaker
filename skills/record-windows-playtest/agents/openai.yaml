@@ -1,0 +1,4 @@
+interface:
+  display_name: "Record Windows Playtest"
+  short_description: "Capture validated Windows Unity playtests"
+  default_prompt: "Use $record-windows-playtest to record a Windows Unity playtest, validate the local video, and publish only when a destination profile is explicitly selected."

@@ -1,0 +1,35 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate bundle and unit tests
+        shell: pwsh
+        run: |
+          python scripts/validate_bundle.py
+          python -m unittest discover -s tests -v
+      - name: Verify POSIX entrypoints and executable modes
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sh -n scripts/link.sh scripts/unlink.sh scripts/doctor.sh
+          test "$(git ls-files --stage scripts/link.sh | cut -d' ' -f1)" = 100755
+          test "$(git ls-files --stage scripts/unlink.sh | cut -d' ' -f1)" = 100755
+          test "$(git ls-files --stage scripts/doctor.sh | cut -d' ' -f1)" = 100755
