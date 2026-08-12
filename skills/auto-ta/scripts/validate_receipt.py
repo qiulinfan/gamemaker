@@ -23,6 +23,7 @@ from pathlib import Path
 
 ALLOWED_STATUSES = {"validated", "prototype", "blocked", "failed"}
 ALLOWED_VERDICTS = {"pass", "fail", "not_tested"}
+ALLOWED_EVIDENCE_STATUSES = {"current", "pending", "stale", "rejected"}
 EXPECTED_COMPARISON_CHECK_IDS = {
     "audit.source_verdict",
     "audit.imported_verdict",
@@ -793,7 +794,51 @@ def _validate_gate_evidence(
 ) -> None:
     identifier = gate.get("id")
     verdict = gate.get("verdict")
+    evidence_status = gate.get("evidence_status")
     evidence = gate.get("evidence")
+    if evidence_status not in ALLOWED_EVIDENCE_STATUSES:
+        _problem(
+            problems,
+            "GATE_EVIDENCE_STATUS_INVALID",
+            "Gate evidence_status is required and must be current, pending, stale, or rejected",
+            id=identifier,
+            evidence_status=evidence_status,
+        )
+    elif verdict in {"pass", "fail"} and evidence_status != "current":
+        _problem(
+            problems,
+            "GATE_EVIDENCE_STATUS_MISMATCH",
+            "A tested gate must bind current evidence",
+            id=identifier,
+            verdict=verdict,
+            evidence_status=evidence_status,
+        )
+    elif verdict == "not_tested" and evidence_status == "current":
+        _problem(
+            problems,
+            "GATE_EVIDENCE_STATUS_MISMATCH",
+            "An untested gate cannot claim current accepted evidence",
+            id=identifier,
+            verdict=verdict,
+            evidence_status=evidence_status,
+        )
+
+    reason = gate.get("reason")
+    if verdict == "pass" and isinstance(reason, str) and reason.strip():
+        _problem(
+            problems,
+            "PASS_GATE_REASON_CONFLICT",
+            "A passing gate cannot carry a pending, stale, rejected, or failure reason",
+            id=identifier,
+        )
+    if verdict == "not_tested" and (not isinstance(reason, str) or not reason.strip()):
+        _problem(
+            problems,
+            "GATE_REASON_MISSING",
+            "An untested gate must state a reason",
+            id=identifier,
+        )
+
     if gate.get("required") is True and verdict in {"pass", "fail"}:
         if not isinstance(evidence, dict) or not evidence:
             _problem(

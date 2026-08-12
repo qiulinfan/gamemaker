@@ -206,6 +206,33 @@ class BundleContractTests(unittest.TestCase):
         self.assertIn("explicitly authorizes persistent background startup", troubleshooting)
         self.assertNotIn("6. Enable auto-start", troubleshooting)
 
+    def test_animation_alignment_requires_visible_semantic_oracles(self) -> None:
+        skill = (
+            ROOT / "skills/character-rig-animation-alignment/SKILL.md"
+        ).read_text(encoding="utf-8")
+        gates = (
+            ROOT
+            / "skills/character-rig-animation-alignment/references/alignment-gates.md"
+        ).read_text(encoding="utf-8")
+        for text in (skill, gates):
+            self.assertIn("visible", text.lower())
+            self.assertIn("semantic axis", text)
+            self.assertIn("independent", text)
+            self.assertIn("correction", text)
+
+    def test_playtest_records_and_reports_editor_cleanup_baseline(self) -> None:
+        skill = (ROOT / "skills/play-unity-game/SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        for marker in (
+            "pre-session Editor baseline",
+            "dirty flag",
+            "Prefab Stage",
+            "PASS`, `FAIL`, or `BLOCKED",
+            "cleanup outcome",
+        ):
+            self.assertIn(marker, skill)
+
 
 if __name__ == "__main__":
     unittest.main()

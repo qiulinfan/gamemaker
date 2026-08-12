@@ -30,6 +30,8 @@ Select gates from the asset contract. Every required gate needs raw evidence and
 - Constraints/drivers needed at runtime are baked or supported by the target.
 - Clip names, frame ranges, sample rate, duration, loop seam, root motion, events, and additive/reference pose policy. A global, empty, or unbound Action is not an exportable clip; include bound Action slots and NLA strips.
 - Source-to-target retarget is run on the actual pair and inspected during motion.
+- Visible direction contracts identify the observable surface or landmarks, the semantic axis, its coordinate space, and an unanimated reference. A root, Humanoid slot, or bone-local axis is only a proxy until render geometry, audited landmarks, or skin/bind data independently proves that it matches the visible result.
+- The acceptance oracle is independent from the correction under test. Establish the baseline before applying animation or correction, and re-derive the expected observable from source/bind/geometry data or a separate rendered measurement. Do not let a production calibration value or its own `Measure*` function establish the only expected result.
 
 ## Materials, lighting, shaders, and VFX
 
@@ -70,6 +72,11 @@ Select gates from the asset contract. Every required gate needs raw evidence and
 - Mark a known-bad capture as rejected and exclude it from the active receipt.
   Retain it only as explicitly labeled failure evidence; never let a newer
   manifest silently rehabilitate older pixels.
+- Expire current-state evidence after any code, asset, controller, importer,
+  configuration, capture implementation, or runtime-state change that can
+  affect its gate. Rebind fresh artifact and implementation hashes before the
+  gate can pass again. A newer inspected runtime failure overrides and
+  invalidates a conflicting older screenshot, metric, or report.
 - Treat contact sheets and editorial root staging as pose evidence only.
   Full-speed timing, transitions, physics, collision, events, prop release,
   IK, and gameplay-owned trajectory remain `not_tested` until exercised through

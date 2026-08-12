@@ -209,5 +209,82 @@ class AutoTaFreshReplayTests(unittest.TestCase):
         self.assertIn("Build and validate 3D game art assets", metadata)
 
 
+class AutoTaGateEvidenceStatusTests(unittest.TestCase):
+    def _problems(self, gate: dict) -> list[dict]:
+        problems: list[dict] = []
+        VALIDATOR._validate_gate_evidence(gate, {}, None, problems)
+        return problems
+
+    def test_current_evidence_is_required_for_a_passing_gate(self) -> None:
+        problems = self._problems(
+            {
+                "id": "visual.silhouette",
+                "required": True,
+                "verdict": "pass",
+                "evidence_status": "stale",
+                "evidence": {"metric": 1},
+            }
+        )
+        self.assertEqual(
+            ["GATE_EVIDENCE_STATUS_MISMATCH"],
+            [problem["code"] for problem in problems],
+        )
+
+    def test_pass_with_pending_reason_is_rejected(self) -> None:
+        problems = self._problems(
+            {
+                "id": "visual.runtime",
+                "required": True,
+                "verdict": "pass",
+                "evidence_status": "current",
+                "evidence": {"metric": 0},
+                "reason": "Independent visual replay is still pending.",
+            }
+        )
+        self.assertEqual(
+            ["PASS_GATE_REASON_CONFLICT"],
+            [problem["code"] for problem in problems],
+        )
+
+    def test_untested_gate_requires_noncurrent_status_and_reason(self) -> None:
+        accepted = self._problems(
+            {
+                "id": "engine.runtime",
+                "required": True,
+                "verdict": "not_tested",
+                "evidence_status": "pending",
+                "reason": "The authorized engine is unavailable.",
+            }
+        )
+        self.assertEqual([], accepted)
+
+        rejected = self._problems(
+            {
+                "id": "engine.runtime",
+                "required": True,
+                "verdict": "not_tested",
+                "evidence_status": "current",
+            }
+        )
+        self.assertEqual(
+            ["GATE_EVIDENCE_STATUS_MISMATCH", "GATE_REASON_MISSING"],
+            [problem["code"] for problem in rejected],
+        )
+
+    def test_legacy_gate_without_evidence_status_is_rejected(self) -> None:
+        problems = self._problems(
+            {
+                "id": "geometry.dimensions",
+                "required": True,
+                "verdict": "pass",
+                "evidence": {"actual_m": [1, 1, 1]},
+            }
+        )
+        self.assertEqual(
+            ["GATE_EVIDENCE_STATUS_INVALID"],
+            [problem["code"] for problem in problems],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

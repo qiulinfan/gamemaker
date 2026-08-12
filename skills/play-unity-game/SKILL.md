@@ -43,7 +43,11 @@ Treat playtesting as an independent verification pass. Play the current artifact
    that Unity is not compiling, changing play mode, or running tests.
 7. Inspect the active scene, build settings, hierarchy summary, and current
    Console.
-8. Do not modify source assets, scenes, settings, or scripts during a read-only
+8. Record the pre-session Editor baseline: Play/Edit state, active and open
+   scenes, each scene's dirty flag, and any active Prefab Stage. Pre-existing
+   unsaved state belongs to the user; never save, reload, or clear it during
+   cleanup.
+9. Do not modify source assets, scenes, settings, or scripts during a read-only
    playtest.
 
 ## Choose the Input Path
@@ -106,10 +110,20 @@ Relevant project compile errors, exceptions, missing references, or reproducible
 
 ## Leave Unity in a Safe State
 
-1. Stop Play Mode unless the user explicitly asks to leave it running.
-2. Do not save runtime-only state back into the scene.
-3. Remove only temporary evidence created by this session when it is no longer needed.
-4. Leave source files unchanged.
+1. Attempt cleanup after `PASS`, `FAIL`, or `BLOCKED` whenever control can be
+   safely re-established.
+2. Stop Play Mode unless the user explicitly asks to leave it running, and
+   verify that the Editor reaches a stable Edit state.
+3. Compare the active/open scenes, dirty flags, and Prefab Stage with the
+   recorded baseline. Restore navigation state only when doing so cannot
+   discard pre-existing unsaved work; never save or reload ambiguous dirty
+   state.
+4. Do not save runtime-only state back into a scene.
+5. Remove only temporary evidence created by this session when it is no longer needed.
+6. Leave source files unchanged.
+7. If cleanup cannot be completed, report the exact remaining Play/Edit state,
+   active/open scenes, dirty flags, and Prefab Stage. Do not imply that Unity
+   was left safe.
 
 ## Report
 
@@ -123,6 +137,7 @@ Include:
 - issues ordered by severity, each with reproduction steps, expected result, actual result, and evidence;
 - Console result;
 - aspects not tested or only verified through automation;
+- final Play/Edit state, scene/dirty-state comparison, Prefab Stage, and cleanup outcome;
 - recommended owner: design, art, programming, or cross-discipline.
 
 Do not implement fixes during this skill. Hand actionable findings back to the responsible agent.

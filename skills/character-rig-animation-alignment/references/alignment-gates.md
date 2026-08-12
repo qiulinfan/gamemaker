@@ -107,6 +107,21 @@ For URP, translate material semantics deliberately: roughness and smoothness are
 
 ## 7. Runtime and Visual Acceptance
 
+Define every visible direction gate by naming the observable region or
+landmarks, its semantic axis, coordinate space, and an unanimated reference.
+Derive that reference from render geometry, audited landmarks, or verified
+skin/bind data. Do not assume a root, Humanoid slot, or bone-local axis matches
+the visible face, gaze, toe, chest, or held-prop direction; use it only after
+independent evidence proves the relationship, and confirm from the relevant
+front/side camera.
+
+Keep the acceptance oracle independent from the correction under test. Freeze
+or derive its baseline before animation and correction, then recompute the
+expected observable from source geometry, binding data, audited landmarks, or
+a separate synchronized pixel measurement. A production calibration value and
+the `Measure*` function that consumes it cannot be the only proof that the same
+correction succeeded.
+
 For each required state, sample several normalized times across the clip and test:
 
 - finite positions/rotations/scales and plausible human landmarks;

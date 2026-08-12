@@ -12,7 +12,7 @@ Match user-facing explanations, questions, prompts, and handoffs to the user's l
 ## Establish the Contract
 
 1. Read repository instructions, the worktree, the design-source hierarchy, technical architecture, and existing asset/license conventions.
-2. Record the character's gameplay role, camera visibility and distance, thematic identity, required animation verbs, target engine and render pipeline, format, scale, axes, root-motion owner, critical visual regions, alpha surfaces, performance budget, and completion evidence.
+2. Record the character's gameplay role, camera visibility and distance, thematic identity, required animation verbs, target engine and render pipeline, format, scale, axes, root-motion owner, critical visual regions and their observable semantic directions, alpha surfaces, performance budget, and completion evidence.
 3. Separate confirmed requirements, synthesis, assumptions, and open design questions. Do not turn an asset title, marketplace category, or visual resemblance into canonical character identity.
 4. Use `$search-game-art` when selection or acquisition is still open. Preserve the original page, creator, exact edition, retrieval date, declared license, redistribution boundary, archive name/size/hash, and locally audited contents. Keep declared web claims separate from inspected-file and engine evidence.
 5. Stop before download, import, or redistribution when permission is ambiguous, the page and archive conflict materially, the license cannot satisfy the intended repository or shipping model, or the user has not authorized the required acquisition.
@@ -120,6 +120,8 @@ domain reload, branch/worktree switch, or MCP instance selection.
 ## Accept With Reproducible Evidence
 
 Validate from a clean state at five layers:
+
+For visible direction contracts such as face, gaze, toe, chest, or held-prop aim, derive the observable semantic axis from unanimated render geometry, audited landmarks, or a verified skin/bind reference. A root, Humanoid slot, or bone-local axis is only a diagnostic proxy until independently proven to match the visible surface. Establish the acceptance oracle before applying animation or correction, and keep it independent from the correction's own calibration and measurement code; re-derive the expected observable from source/bind/geometry data or cross-check it against synchronized final pixels.
 
 - **Static importer:** exact mapping, clips, avatar, populated submesh/material order, texture import state, serialized shader properties/keywords, prefab references, no forbidden overrides, build-setting isolation, and clean relevant Console output.
 - **Editor sampling:** sample every state at several normalized times such as `0`, `.25`, `.5`, `.75`, and `.95`; assert finite transforms, plausible scale/landmarks, bilateral foot-toe length, a support foot, and unchanged GameObject/Animator roots for in-place motion.

@@ -64,7 +64,7 @@ Use stable names. Do not join independent parts merely to make the object count 
 
 ### 3. Perform a visual checkpoint
 
-Render or capture enough views to expose silhouette, proportions, intersections, shading, UV/material errors, deformation, and lighting. Inspect those images. Use a neutral look-development view to diagnose the asset and the target gameplay camera to accept it. For animation, inspect representative poses plus the full clip timing; a still image cannot validate motion.
+Render or capture enough views to expose silhouette, proportions, intersections, shading, UV/material errors, deformation, and lighting. Inspect those images. Use a neutral look-development view to diagnose the asset and the target gameplay camera to accept it. For animation, inspect representative poses plus the full clip timing; a still image cannot validate motion. For a visible direction such as gaze, facing, toe aim, or prop aim, define the observable region and semantic axis from unanimated render geometry, audited landmarks, or a verified skin/bind reference. Do not assume a bone's local axis represents the visible result.
 
 If no visual surface is available, label visual quality `not_tested`; do not infer it from mesh statistics.
 
@@ -229,6 +229,8 @@ For an image-textured character or any Blender-to-Unity look-development job, re
 - Preserve the source skeleton and clips; retarget on copies.
 - Check bone hierarchy, unique names, bind pose, deform versus control bones, weights, zero-weight vertices, influences per vertex, normalized weights, constraints, frame rate, clip ranges, loop seam, root motion, and representative extreme poses.
 - Validate retargeting on the actual source and target skeletons. A marketplace compatibility label or Humanoid mapping claim is not proof.
+- Establish semantic direction references before animation and correction can contaminate them. Treat root, Humanoid, and bone-local axes as diagnostic proxies until they are independently shown to match the visible surface.
+- Keep the acceptance oracle independent from the correction under test. Re-derive expected observables from source geometry, audited landmarks, or binding data, or cross-check them against final rendered evidence; a correction's own calibrated measurement cannot prove itself.
 
 ### Lighting, shaders, and VFX
 
@@ -239,7 +241,7 @@ For an image-textured character or any Blender-to-Unity look-development job, re
 
 ## Evidence and Completion
 
-Write `auto-ta-receipt.json` beside the delivery using [references/receipt-schema.md](references/receipt-schema.md). Include assumptions, input/output hashes, tools and versions, executed commands or tool actions, gates with `pass`/`fail`/`not_tested`, visual evidence paths, round-trip evidence, licenses, known limitations, and recommended next step.
+Write `auto-ta-receipt.json` beside the delivery using [references/receipt-schema.md](references/receipt-schema.md). Include assumptions, input/output hashes, tools and versions, executed commands or tool actions, gates with `pass`/`fail`/`not_tested`, explicit evidence status, visual evidence paths, round-trip evidence, licenses, known limitations, and recommended next step. Any code, asset, configuration, capture implementation, or runtime-state change that can affect a gate expires its prior current-state evidence; downgrade that gate until fresh evidence is bound. A higher-strength observed failure likewise invalidates a conflicting lower-strength pass.
 
 Validate the receipt before reporting completion:
 
