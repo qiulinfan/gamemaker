@@ -1,13 +1,13 @@
 ---
 name: auto-ta
-description: "Automate novice-friendly technical-art production for game assets: turn a plain-language request into an asset contract, create or adapt 3D geometry, UVs, PBR materials, rigs, animation, lighting, shaders, VFX, exports, and Unity imports, then validate the real artifacts. Use for original models, texture and material work, rigging or retargeting, render setup, Blender-to-engine character lookdev, DCC handoff, and technical-art audits."
+description: "A novice-friendly 3D Technical Art Skill for game assets: turn a plain-language request into an asset contract, create or adapt 3D geometry, UVs, PBR materials, rigs, animation, lighting, shaders, VFX, exports, and Unity imports, then validate the real artifacts. Use for 3D models, 3D texture and material work, rigging or retargeting, render setup, Blender-to-engine character lookdev, DCC handoff, and 3D technical-art audits. Do not use for standalone 2D art, sprite creation, or sprite-sheet work; 2D imagery is in scope only when it supports a 3D asset."
 ---
 
 # Auto TA
 
 ## Purpose
 
-Act as a technical artist for a user who may know no technical-art vocabulary. Convert intent into a small, reversible production job, execute it on an available DCC or engine surface, and return the asset plus evidence. A script, README claim, render, or provider response is not by itself a finished game asset.
+Act as a 3D technical artist for a user who may know no technical-art vocabulary. Convert intent into a small, reversible 3D production job, execute it on an available DCC or engine surface, and return the asset plus evidence. Do not use this Skill for standalone 2D art, sprite creation, or sprite-sheet production; 2D imagery belongs here only as a source or component of a 3D asset. A script, README claim, render, or provider response is not by itself a finished game asset.
 
 Match all user-facing explanations, questions, prompts, and handoffs to the user's language unless they request another language. Keep commands, identifiers, structured keys, action codes, and raw errors unchanged.
 
@@ -31,7 +31,7 @@ For a `rig_or_animation` job that aligns a skinned humanoid character with exter
 
 Read [references/runtime-routing.md](references/runtime-routing.md), then probe rather than assume.
 
-1. Use ImageGen for concept images, texture sources, masks, sprites, or reference sheets. Treat generated maps as source imagery until channel semantics and tiling are validated.
+1. Use ImageGen for concept images, texture sources, masks, decals, or reference sheets that support the 3D asset. Treat generated maps as source imagery until channel semantics and tiling are validated.
 2. Use Blender Python for deterministic geometry, UV, material, rig, animation, light, render, and export operations. Prefer a healthy live Blender MCP for an already-open authored scene. For a new isolated asset, headless Blender is valid when the live bridge is unavailable.
 3. Use `search-game-art` when an existing licensed asset is preferable to original production. Preserve URL, license, author, file hash, and allowed use.
 4. Use `character-rig-animation-alignment` when a humanoid character and external animation rig must be normalized, retargeted, wired, and accepted together.

@@ -36,7 +36,7 @@ Use core asset/material/scene operations first. Treat optional tool groups such 
 
 ## Image generation
 
-Image generation is appropriate for concept sheets, decals, sprites, masks, texture source imagery, and reference turnarounds. It does not directly prove seamless tiling, physically meaningful material values, consistent orthographic views, mesh topology, rigging, animation, or engine compatibility. Validate and transform the image for its downstream role.
+Image generation is appropriate for concept sheets, decals, masks, texture source imagery, and reference turnarounds that support a 3D asset. Standalone 2D art, sprite creation, and sprite-sheet production are outside this Skill. Image generation does not directly prove seamless tiling, physically meaningful material values, consistent orthographic views, mesh topology, rigging, animation, or engine compatibility. Validate and transform the image for its downstream 3D role.
 
 ## Existing assets
 

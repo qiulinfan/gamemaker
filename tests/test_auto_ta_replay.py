@@ -194,6 +194,20 @@ class AutoTaFreshReplayTests(unittest.TestCase):
         self.assertIn("$CodexHome 'skills\\auto-ta'", skill)
         self.assertNotIn("python scripts/", skill)
 
+    def test_skill_trigger_is_explicitly_3d_and_excludes_sprite_work(self) -> None:
+        skill = (ROOT / "skills/auto-ta/SKILL.md").read_text(encoding="utf-8")
+        frontmatter = skill.split("---", maxsplit=2)[1]
+        self.assertIn("3D Technical Art Skill", frontmatter)
+        self.assertIn(
+            "Do not use for standalone 2D art, sprite creation, or sprite-sheet work",
+            frontmatter,
+        )
+
+        metadata = (ROOT / "skills/auto-ta/agents/openai.yaml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("Build and validate 3D game art assets", metadata)
+
 
 if __name__ == "__main__":
     unittest.main()

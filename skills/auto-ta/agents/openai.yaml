@@ -1,6 +1,6 @@
 interface:
   display_name: "Auto TA"
-  short_description: "Build and round-trip validated game art assets"
-  default_prompt: "Use $auto-ta to build or adapt this game asset and validate its Blender-to-engine geometry, materials, animation, and visual result."
+  short_description: "Build and validate 3D game art assets"
+  default_prompt: "Use $auto-ta to build or adapt this 3D game asset and validate its Blender-to-engine geometry, materials, animation, and visual result."
 policy:
   allow_implicit_invocation: true
