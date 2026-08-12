@@ -55,6 +55,26 @@ Select gates from the asset contract. Every required gate needs raw evidence and
 - A minimal prefab or validation scene renders and animates the asset when engine integration is required.
 - Static batching, instancing, collider, lightmap, compression, memory, draw-call, triangle, bone, skin-influence, and shader-variant budgets are checked when applicable.
 
+## Visual and capture evidence
+
+- Bind every generated still or contact sheet to its claimed generating state
+  and configuration, artifact path, and current hash. For engine animation
+  captures, also retain the capture-run identity, actual state and clip,
+  sampling time, root presentation, semantic pose evidence, and the mechanism
+  that synchronized skinning with pixel rendering. For independently
+  reproducible validation, bind the exact invocation and the path and hash of
+  the generating script, tool, or immutable build; an unbound implementation
+  limits the capture to provisional review evidence.
+- Treat duplicate or distinct image hashes only as stale-output sentinels. They
+  do not establish state identity, pose correctness, or artistic quality.
+- Mark a known-bad capture as rejected and exclude it from the active receipt.
+  Retain it only as explicitly labeled failure evidence; never let a newer
+  manifest silently rehabilitate older pixels.
+- Treat contact sheets and editorial root staging as pose evidence only.
+  Full-speed timing, transitions, physics, collision, events, prop release,
+  IK, and gameplay-owned trajectory remain `not_tested` until exercised through
+  the real runtime path.
+
 ## Evidence strength
 
 Use evidence in this order:

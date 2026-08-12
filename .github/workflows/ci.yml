@@ -13,20 +13,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Validate bundle and unit tests
+      - name: Validate bundle and unit tests on POSIX
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          python scripts/validate_bundle.py
+          python -m unittest discover -s tests -v
+          python -m compileall -q skills scripts tests
+          ./scripts/doctor.sh --skip-link-check
+      - name: Validate bundle and unit tests on Windows
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           python scripts/validate_bundle.py
           python -m unittest discover -s tests -v
+          python -m compileall -q skills scripts tests
+          pwsh -NoProfile -File .\scripts\doctor.ps1 -SkipLinkCheck
       - name: Verify POSIX entrypoints and executable modes
-        if: runner.os == 'Linux'
+        if: runner.os != 'Windows'
         shell: bash
         run: |
           sh -n scripts/link.sh scripts/unlink.sh scripts/doctor.sh

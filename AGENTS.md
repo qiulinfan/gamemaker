@@ -32,7 +32,11 @@
   request explicitly authorizes that effect.
 - Maintain Skills with the active system `skill-creator`. Run its
   `quick_validate.py` against every Skill, then run
-  `python -m unittest discover -s tests -v`, Python compilation, PowerShell
-  parser checks, and `git diff --check`.
+  `python -m unittest discover -s tests -v`, Python compilation, the
+  platform-matching lifecycle doctor and script parser, and `git diff --check`.
+  On macOS, use iTerm2 as the terminal emulator and run the POSIX entrypoints
+  in `zsh` or `bash`; do not install, invoke, or require PowerShell for macOS
+  maintenance or validation. Use the same POSIX path on Linux. On Windows, use
+  PowerShell 7+ and run the PowerShell doctor and parser checks.
 - The repository currently has no selected license. Do not infer redistribution
   permission or create a license text without the owner's explicit choice.

@@ -24,7 +24,8 @@ not migrated. Project-specific facts were separated into opt-in profiles.
 - `profiles/`: disabled-by-default Dreamweaver, Multica, and Google Drive
   adaptations and historical evidence.
 - `workflow.bundle.toml`: the machine-readable bundle inventory.
-- `scripts/`: POSIX and PowerShell link, unlink, and doctor commands.
+- `scripts/`: POSIX lifecycle commands for macOS/Linux and PowerShell lifecycle
+  commands for Windows.
 - `tests/`: manifest, portability, agent, installer, and syntax checks.
 
 ## Production loop
@@ -50,23 +51,34 @@ The linkers point Codex directly at this checkout. Editing a Skill or custom
 agent here therefore changes what a newly started Codex task loads; no copied
 installation is created.
 
-Runtime requirements are Python 3.11+ on every platform, PowerShell 7+
-(`pwsh`) for the Windows lifecycle and capture scripts, and a POSIX `sh` plus
-Python 3.11+ for the shell lifecycle. Windows PowerShell 5.1 is unsupported and
-the PowerShell entrypoints fail before mutation when invoked by an older host.
+Runtime requirements are Python 3.11+ on every platform. On macOS, use iTerm2
+as the terminal emulator and run the POSIX lifecycle in `zsh` or `bash`;
+iTerm2 is not itself a shell, and PowerShell is not a macOS requirement. Linux
+uses the same POSIX lifecycle. Windows uses PowerShell 7+ (`pwsh`) for the
+Windows lifecycle and capture scripts. Windows PowerShell 5.1 is unsupported,
+and the PowerShell entrypoints fail before mutation when invoked by an older
+host.
 
-PowerShell 7:
-
-~~~powershell
-pwsh -NoProfile -File .\scripts\link.ps1
-pwsh -NoProfile -File .\scripts\doctor.ps1
-~~~
-
-POSIX:
+macOS — open the checkout in iTerm2, then run these commands in `zsh` or
+`bash`:
 
 ~~~sh
 ./scripts/link.sh
 ./scripts/doctor.sh
+~~~
+
+Linux — run the same POSIX entrypoints in a POSIX shell:
+
+~~~sh
+./scripts/link.sh
+./scripts/doctor.sh
+~~~
+
+Windows — run the Windows entrypoints in PowerShell 7:
+
+~~~powershell
+pwsh -NoProfile -File .\scripts\link.ps1
+pwsh -NoProfile -File .\scripts\doctor.ps1
 ~~~
 
 Set `CODEX_HOME` or pass an explicit home path as the first argument. Existing
@@ -93,14 +105,17 @@ contained by this repository, because that would make the product-root link
 recursive.
 
 Unlink only receipt-owned entries that can still be proven to target this
-checkout:
-
-~~~powershell
-pwsh -NoProfile -File .\scripts\unlink.ps1
-~~~
+checkout. On macOS, run the POSIX command in `zsh` or `bash` inside iTerm2; use
+the same command on Linux:
 
 ~~~sh
 ./scripts/unlink.sh
+~~~
+
+On Windows, use PowerShell 7:
+
+~~~powershell
+pwsh -NoProfile -File .\scripts\unlink.ps1
 ~~~
 
 Restart Codex after changing linked Skills or custom-agent configuration.
@@ -129,17 +144,32 @@ authority or weaken validation, licensing, or workspace boundaries.
 
 ## Validate
 
-Run:
+On macOS, open iTerm2 and run the complete POSIX validation path in `zsh` or
+`bash`. Linux uses the same commands:
+
+~~~sh
+python3 -m unittest discover -s tests -v
+python3 -m compileall -q skills scripts tests
+sh -n scripts/link.sh scripts/unlink.sh scripts/doctor.sh
+./scripts/doctor.sh --skip-link-check
+
+codex_home="${CODEX_HOME:-$HOME/.codex}"
+validator="$codex_home/skills/.system/skill-creator/scripts/quick_validate.py"
+for skill_dir in skills/*; do
+    [ -d "$skill_dir" ] || continue
+    uv run --with pyyaml python "$validator" "$skill_dir"
+done
+
+git diff --check
+~~~
+
+This macOS path neither invokes nor requires `pwsh`. On Windows, run the
+equivalent validation in PowerShell 7:
 
 ~~~powershell
 python -m unittest discover -s tests -v
 python -m compileall -q skills scripts tests
 pwsh -NoProfile -File .\scripts\doctor.ps1 -SkipLinkCheck
-~~~
-
-Then validate every Skill with the active system `skill-creator`:
-
-~~~powershell
 $env:PYTHONUTF8 = '1'
 $codexHome = if ([string]::IsNullOrWhiteSpace($env:CODEX_HOME)) {
     Join-Path $env:USERPROFILE '.codex'
@@ -150,6 +180,7 @@ $validator = Join-Path $codexHome 'skills\.system\skill-creator\scripts\quick_va
 Get-ChildItem .\skills -Directory | ForEach-Object {
     uv run --with pyyaml python $validator $_.FullName
 }
+git diff --check
 ~~~
 
 The tests use temporary Codex homes and do not modify the user's live Codex

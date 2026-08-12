@@ -9,6 +9,10 @@ Establish a reproducible Unity Editor control path:
 
 `Codex → streamable HTTP MCP → MCP for Unity server → Unity Editor plugin`
 
+Match user-facing explanations, questions, prompts, and handoffs to the user's
+language unless they request another language. Keep commands, identifiers,
+structured keys, action codes, and raw errors unchanged.
+
 Do not declare success after installing a package or opening a port. Complete the acceptance gates in [references/acceptance.md](references/acceptance.md).
 
 ## Select the path

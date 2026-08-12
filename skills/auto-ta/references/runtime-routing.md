@@ -6,6 +6,16 @@ Probe capabilities at the start of each job. Tool names and installed products c
 
 For a known executable, verify a clean background process before depending on it:
 
+On macOS, run this in `zsh` or `bash` inside iTerm2; use the same POSIX command
+on Linux:
+
+```sh
+"$blender_bin" --background --factory-startup \
+  --python-expr 'import bpy,sys; print(bpy.app.version_string); print(sys.version.split()[0]); print(bpy.app.background)'
+```
+
+On Windows, use PowerShell 7:
+
 ```powershell
 & $BlenderBin --background --factory-startup --python-expr "import bpy,sys; print(bpy.app.version_string); print(sys.version.split()[0]); print(bpy.app.background)"
 ```

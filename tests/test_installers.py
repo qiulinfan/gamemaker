@@ -21,6 +21,7 @@ def _points_directly_to(source: Path, destination: Path) -> bool:
     return bool(is_junction and is_junction() and destination.resolve() == source.resolve())
 
 
+@unittest.skipUnless(os.name == "nt", "PowerShell lifecycle is exercised on Windows")
 class PowerShellLinkLifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:

@@ -28,8 +28,9 @@ production checkout.
 
 ## Historical evidence
 
-`case-studies/character-rig-animation-alignment.md` preserves the complete
-migrated 2026-08-11 Dream Traveler retargeting case. It is evidence for
+`case-studies/character-rig-animation-alignment.md` preserves the migrated
+2026-08-11 Dream Traveler retargeting case and its 2026-08-12 animation-evidence
+continuation. It is evidence for
 diagnostic order and acceptance gates, not a reusable preset. Re-hash current
 artifacts and never reuse its names, paths, counts, tolerances, colors, or hashes
 as current truth.

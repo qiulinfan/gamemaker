@@ -10,6 +10,9 @@ $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) {
     throw 'Gamemaker link.ps1 requires PowerShell 7 or newer (pwsh).'
 }
+if (-not $IsWindows) {
+    throw 'Gamemaker link.ps1 is the Windows lifecycle entrypoint; use ./scripts/link.sh on macOS or Linux.'
+}
 . (Join-Path $PSScriptRoot 'LinkContract.ps1')
 
 $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path

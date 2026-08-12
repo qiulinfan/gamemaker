@@ -89,3 +89,96 @@ Implementation and evidence entrypoints:
 The `Temp/` captures and overwritten historical test XML are workstation evidence, not versioned checkout guarantees. The project document is the durable receipt for the focused 6/6, full EditMode 17/17, PlayMode 2/2, close-face material result, and Console results.
 
 The result remained a reversible presentation candidate. First-person body visibility, canonical identity, prop-contact IK, secondary motion, and official UAL2 timing remained explicit design or source-acquisition questions.
+
+## 2026-08-12 Animation Evidence Continuation
+
+The next review exposed a different failure class: correct Animator and CPU
+bone data did not guarantee that an Edit-mode off-screen render contained the
+same pose. The first `v002` jump manifest recorded the intended `Jump_Start`,
+`Jump_Loop`, and `Jump_Land` clips and matching semantic-bone samples, while
+the PNGs still showed poses cached from the previously rendered action.
+Independent direct-controller and override-controller sampling produced
+identical bones, which excluded controller wiring as the cause.
+
+Unity had not refreshed every `SkinnedMeshRenderer` skin matrix between
+consecutive synchronous `Camera.Render()` calls after `Animator.Play` and
+`Animator.Update(0)`. The capture-only fix set
+`forceMatrixRecalculationPerRender = true` on all ten temporary skinned
+renderers. It also used an exclusive capture layer in a temporary additive
+scene, rejected any unrelated renderer on that layer, asserted the actual
+active clip before every render, and recorded one capture ID, sample time,
+semantic bones, root presentation, and PNG SHA-256. Cleanup restored the prior
+active scene and left one clean Animation Lab scene loaded. The `v002` output
+was explicitly marked rejected rather than silently replaced.
+
+This established that Animator state, active clip, CPU pose, renderer skinning
+cache, and final pixels require one synchronized evidence chain. Distinct image
+hashes are useful for detecting repeated output but cannot establish that the
+pixels depict the claimed pose. The Unity API above is a temporary capture
+safeguard, not a production-renderer setting.
+
+### Jump sequence and presentation root
+
+The old six-state audition exposed only `Jump_Loop`, which is an airborne hold
+rather than a complete jump. The corrected review sampled
+`Jump_Start -> Jump_Loop -> Jump_Land` and treated their ordered seams as one
+verb. The pose sheet accumulated a temporary vertical root presentation so
+takeoff, airborne hold, descent, contact, and recovery remained visually
+continuous. The production prefab still used `applyRootMotion = false`.
+
+Consequently the pose sheet passed animation-review gates but did not validate
+CharacterController gravity, collision, gameplay transition timing, or the
+final jump trajectory. Those gates remained `not_tested`, and the overarching
+receipt remained `prototype`.
+
+### Faithful retargeting versus unsuitable performance
+
+The original `OverhandThrow` looked wrong for the character, but direct
+inspection of the locally provided official `UAL2.blend` proved the deep fold
+was authored in the source. Its root stayed at zero while pelvis-to-head lean
+reached about `59.78 degrees`; more than 40 degrees persisted for 20 frames.
+The retained earlier proof and Unity import had also stretched the official
+30 fps, frames 0-40 action to 24 fps, making the follow-through linger without
+creating the pose.
+
+The repair therefore became a named performance derivative rather than a
+retargeting correction. `OverhandThrow_Soft` preserved the throw phases and
+right-hand path while reducing pelvis translation, drop, and torso fold on a
+reversible Blender copy. The 30 fps, 41-frame, 65-bone animation-only FBX had
+zero root XZ drift. Blender measured peak pelvis-to-head lean at about
+`23.83 degrees`, upper-torso lean at `16.74 degrees`, pelvis drop at `0.104 m`,
+contact-foot slide at `0.041 m` left and `0.014 m` right, and a right-hand path
+span of `1.339 m`.
+
+The official source remained unchanged with SHA-256
+`7412ee86c8b322f9aa94ea99eb7f91f150f91638f08035b2374ee1452ae09ba7`.
+The editable derivative hash was
+`1977ae4e62be94c02a36f0d46974166db4a9f1b7984b3919ba077f01361ebbc1`;
+the FBX hash was
+`f6d59a546e4a96a449e0062559bd49c299192ad8676ef163659f6c631741003c`.
+Clean FBX round-trip comparison covered all 41 frames.
+
+Unity imported the derivative as a valid Human Avatar with the same explicit
+52-slot mapping and measured peak target torso lean at `18.948 degrees`, right
+hand `0.256 m` above the head at the apex, `0.519 m` forward reach at release,
+`0.005 m` closing hand error, and zero Animator-root drift. The focused
+EditMode suite passed 8/8. The final capture manifest bound 36 PNG samples to
+the expected active clips and current hashes without leaking or dirtying a
+temporary scene. It did not bind the capture script revision or exact menu
+invocation, so the set remained a prototype review candidate rather than
+independently reproducible validation.
+
+Durable continuation evidence:
+
+- `ArtSource/Characters/DreamTraveler/Animations/OverhandThrowSoft_v001/`
+- `Assets/_Project/Art/Characters/DreamTraveler/Animations/UAL2_OverhandThrowSoft.fbx`
+- `ArtSource/Characters/DreamTraveler/Renders/SkeletalAnimationFrames_v002/REJECTED.md`
+- `ArtSource/Characters/DreamTraveler/Renders/SkeletalAnimationFrames_v003/capture-manifest.json`
+- `ArtSource/Characters/DreamTraveler/Receipts/SkeletalAnimationFrames_v003/auto-ta-receipt.json`
+- `Assets/_Project/Prototype/Editor/DreamTravelerAnimationFrameCapture.cs`
+- `Assets/_Project/Prototype/Tests/Editor/DreamTravelerRetargetingTests.cs`
+
+The remaining limitations were deliberate: the images were pose/contact
+sheets rather than full-speed playback evidence, and no held prop, release
+event, projectile trajectory, hand IK, or gameplay jump controller was
+implemented in this correction pass.

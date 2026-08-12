@@ -36,6 +36,13 @@ Always verify current official installation instructions. Package managers and s
 
 ## macOS
 
+### Terminal convention
+
+Use iTerm2 as the interactive terminal emulator for this workflow. Run commands
+inside it with `zsh` (preferred) or `bash`; iTerm2 is not itself a shell. Do not
+install, invoke, or require PowerShell for the macOS setup, doctor, or
+validation path.
+
 ### Install uv
 
 Preferred:
@@ -271,12 +278,14 @@ Do not bind to `0.0.0.0` unless remote access is explicitly required and secured
 
 ## Moving the product to another machine
 
-Clone the complete `gamemaker` product repository on the target machine. From
-that checkout run `scripts/link.ps1` with PowerShell 7+ on Windows, or
-`scripts/link.sh` on POSIX, followed by the matching `doctor` command. The
-bundle linker installs direct working-tree links for the complete manifest,
-including this Skill, namespaced agents, and the canonical product root used to
-discover workflows and profiles.
+Clone the complete `gamemaker` product repository on the target machine. On
+macOS, open the checkout in iTerm2 and run `scripts/link.sh` followed by
+`scripts/doctor.sh` in `zsh` or `bash`; do not route this through PowerShell. On
+Linux, use the same POSIX entrypoints. On Windows, run `scripts/link.ps1`
+followed by `scripts/doctor.ps1` in PowerShell 7+. The bundle linker installs
+direct working-tree links for the complete manifest, including this Skill,
+namespaced agents, and the canonical product root used to discover workflows
+and profiles.
 
 Do not copy this individual Skill into `${CODEX_HOME}/skills`. A real copied
 directory conflicts with the bundle's ownership-safe linker, goes stale when

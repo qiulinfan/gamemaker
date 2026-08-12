@@ -59,6 +59,7 @@ class ScriptSyntaxTests(unittest.TestCase):
                 self.assertEqual(0, result.returncode, msg=result.stderr)
                 self.assertTrue(result.stdout.rstrip().endswith("eol: lf"), msg=result.stdout)
 
+    @unittest.skipUnless(os.name == "nt", "PowerShell syntax is validated on Windows")
     def test_powershell_scripts_parse(self) -> None:
         pwsh = shutil.which("pwsh")
         if not pwsh:

@@ -56,6 +56,23 @@ Perform these operations in order and record each result:
 
 For two Unity `.fbx.meta` files with Humanoid descriptions, run the bundled scale/mapping sentinel after the candidate has imported:
 
+On macOS, run this in `zsh` or `bash` inside iTerm2; use the same POSIX command
+on Linux:
+
+```sh
+skill_dir="<absolute-skill-directory>"
+uv run --python 3.11 python "$skill_dir/scripts/audit_unity_humanoid_meta.py" \
+  --reference "<known-good.fbx.meta>" --candidate "<candidate.fbx.meta>" \
+  --ratio-min 0.5 --ratio-max 1.5 --min-common 17 \
+  --required-human Hips,Spine,Head \
+  --required-human LeftUpperLeg,RightUpperLeg,LeftLowerLeg,RightLowerLeg,LeftFoot,RightFoot,LeftToes,RightToes \
+  --required-human LeftUpperArm,RightUpperArm,LeftLowerArm,RightLowerArm,LeftHand,RightHand \
+  --output "<humanoid-meta-audit.json>" \
+  --output-root "<authorized-report-directory>"
+```
+
+On Windows, use PowerShell 7:
+
 ```powershell
 uv run --python 3.11 python <skill-dir>/scripts/audit_unity_humanoid_meta.py `
   --reference <known-good.fbx.meta> --candidate <candidate.fbx.meta> `
@@ -108,7 +125,7 @@ Validate from a clean state at five layers:
 - **Editor sampling:** sample every state at several normalized times such as `0`, `.25`, `.5`, `.75`, and `.95`; assert finite transforms, plausible scale/landmarks, bilateral foot-toe length, a support foot, and unchanged GameObject/Animator roots for in-place motion.
 - **Source-relative motion:** compare unusual pelvis or limb excursions with the source animation. Do not hide a real retargeting failure behind a wide bound, but do not reject an authored lunge with an arbitrary target-only envelope.
 - **Runtime:** enter Play mode through the player-like path, transition every required state, verify looping and root authority, reset, and repeat enough to expose state leakage.
-- **Visual and reproducible evidence:** inspect close-face, front, and side captures under neutral and target presentation conditions for representative states; retain tool/engine versions, commands or menu actions, source/output hashes, test XML or logs, screenshot paths, and the final worktree diff.
+- **Visual and reproducible evidence:** inspect close-face, front, and side captures under neutral and target presentation conditions for representative states. Accept an engine-generated animation capture only when the actual state and clip, evaluated time, CPU semantic pose, skinned-renderer evaluation, and final pixels are proven to belong to the same synchronized evaluation. Retain capture identity, presentation offsets, image hashes, tool/engine versions, commands or menu actions, test XML or logs, screenshot paths, and the final worktree diff; distinct image hashes alone do not prove pose correctness.
 
 Run focused tests, then the relevant full Editor and PlayMode suites. Rebuild from the authoritative source and repeat critical checks when generated assets are part of the delivery. A screenshot, successful export command, green Avatar icon, or one passing pose is not a completed retarget.
 

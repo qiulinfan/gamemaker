@@ -61,6 +61,16 @@ Require:
 
 Do not “correct” disputed fps or an unusual lunge from memory. Preserve auditable source behavior, disclose provenance conflict, and obtain the canonical source before claiming official timing.
 
+When a technically faithful source motion is unsuitable as a performance,
+prove that the unwanted motion exists in the source before editing. Define
+verb-specific phases and observables in advance, such as preparation, apex,
+release or contact, recovery, support-foot state, torso angle, hand path, and
+root drift. Create a named derivative on a reversible copy, record the changed
+control channels and intent-critical channels that must remain, then compare
+source, derivative, clean exchange round trip, and retargeted target at those
+same phases. Do not report an intentional performance adaptation as a
+retargeting repair.
+
 ## 5. Unity Import and Derived Assets
 
 | Gate | Evidence |
@@ -105,6 +115,38 @@ For each required state, sample several normalized times across the clip and tes
 - unchanged character and Animator child roots for controller-authoritative in-place playback;
 - source-relative pelvis and limb envelopes for large authored motions;
 - material, alpha, silhouette, intersections, prop contact, and camera readability from front and side.
+
+For a verb composed from multiple clips, validate both the clips and their
+ordered seams. Record the transition or editorial timing and root continuity
+across phases such as takeoff, airborne loop, and landing. Keep any
+capture-only root accumulation, hold, rotation, or staging offset separate from
+the production root policy. Such presentation can make a pose sheet readable,
+but it cannot pass gameplay trajectory, collision, transition, or root-authority
+gates.
+
+For engine-generated animation captures, establish capture integrity for every
+sample:
+
+- isolate the temporary character, cameras, lights, and capture layer or scene;
+  fail if an unrelated enabled renderer can enter the image;
+- disable unrelated pose drivers or seed them deterministically, including
+  blink, gaze, additive layers, procedural previews, and prop helpers;
+- assert the requested state and actual active clip immediately before render,
+  and record a capture-run identifier, normalized and absolute time, root
+  presentation, selected semantic-bone pose, and output image hash;
+- retain the exact capture invocation plus a path and hash for the generating
+  script, tool, or immutable build. A manifest that describes synchronization
+  without identifying the implementation that performed it is sufficient only
+  for provisional review, not independently reproducible validation;
+- force the engine's supported synchronous skin evaluation on temporary
+  skinned renderers when Edit-mode or off-screen rendering does not guarantee
+  that Animator evaluation invalidates render caches; never turn a capture
+  safeguard into a production-renderer default;
+- bind CPU pose sampling and pixel rendering to the same evaluation, then
+  re-hash the written artifacts before handoff. Image uniqueness is only a
+  stale-frame sentinel, not proof of the claimed clip or visual quality;
+- restore the previous active scene and render state in guaranteed cleanup,
+  release temporary resources, and verify that no scene or object leaked.
 
 Then enter Play mode, exercise the real state path, reset, and repeat. Retain focused and full-suite results, Console errors/warnings, screenshots, logs, versions, hashes, and rebuild commands. Treat screenshots as visual evidence, never as a substitute for structural or runtime checks.
 
@@ -151,6 +193,20 @@ validation:
   editor_sampling: <pass | fail | not_tested>
   runtime: <pass | fail | not_tested>
   visual: <pass | fail | not_tested>
+  visual_capture:
+    capture_run_id: <id>
+    invocation: <exact command, menu action, or automation entrypoint>
+    implementation: {path: <path>, sha256: <hash>}
+    skinning_sync: <record or not_tested reason>
+    isolation_cleanup: <record>
+    samples:
+      - state: <actual state>
+        clip: <actual active clip>
+        normalized_time: 0.0
+        absolute_time_s: 0.0
+        root_presentation: <production policy or capture-only offset>
+        semantic_pose: <record>
+        image: {path: <path>, sha256: <hash>}
 verdict: <validated | prototype | blocked | failed>
 limitations: []
 ```

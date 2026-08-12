@@ -29,6 +29,7 @@ class AutoTaFreshReplayTests(unittest.TestCase):
     def _reports(self, root: Path) -> tuple[dict, dict, Path]:
         blender = root / "trusted-blender"
         blender.write_bytes(b"explicit test executable")
+        blender.chmod(0o755)
         blend = root / "source.blend"
         blend.write_bytes(b"BLENDER")
         delivery = root / "delivery.glb"

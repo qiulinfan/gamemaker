@@ -73,7 +73,20 @@ If no visual surface is available, label visual quality `not_tested`; do not inf
 Read [references/quality-gates.md](references/quality-gates.md). Run only the gates relevant to the contract, but never skip geometry and export/import gates for a deliverable called game-ready.
 
 Resolve the bundled executables from the globally linked Skill, independent of
-the target game's current directory. Do this once before using any example:
+the target game's current directory. On macOS, run the POSIX examples in `zsh`
+or `bash` inside iTerm2; iTerm2 is the terminal emulator, not the shell. Use the
+same POSIX syntax on Linux. Do this once before using any example:
+
+```sh
+codex_home="${CODEX_HOME:-$HOME/.codex}"
+auto_ta_skill_dir="$(realpath "$codex_home/skills/auto-ta")"
+audit_script="$auto_ta_skill_dir/scripts/blender_asset_audit.py"
+compare_script="$auto_ta_skill_dir/scripts/compare_asset_audits.py"
+receipt_validator="$auto_ta_skill_dir/scripts/validate_receipt.py"
+test -f "$audit_script" && test -f "$compare_script" && test -f "$receipt_validator"
+```
+
+On Windows, resolve the same paths in PowerShell 7:
 
 ```powershell
 $CodexHome = if ([string]::IsNullOrWhiteSpace($env:CODEX_HOME)) {
@@ -90,9 +103,21 @@ $ReceiptValidator = (Resolve-Path -LiteralPath (Join-Path $AutoTaSkillDir 'scrip
 Treat failure to resolve any of these absolute paths as
 `AUTO_TA_SKILL_NOT_LINKED`; do not fall back to `scripts/...` relative to the
 game cwd. Set the remaining asset, output, and trusted-Blender variables to
-explicit absolute paths for the current job.
+explicit absolute paths for the current job, using the lowercase variable names
+below on POSIX or the PowerShell names on Windows.
 
 For `.blend` files, use the bundled audit without external Python packages:
+
+```sh
+"$blender_bin" --background --factory-startup --disable-autoexec --offline-mode \
+  --python-exit-code 1 "$asset_blend" --python "$audit_script" -- \
+  --output "$source_audit" --output-root "$output_dir" --force \
+  --root-object "$asset_root" --frame 1 \
+  --require-mesh --require-uv --require-material --max-triangles 20000 \
+  --expected-dimensions-m 2.0 0.8 1.1 --expected-ground-z-m 0
+```
+
+Windows PowerShell equivalent:
 
 ```powershell
 & $BlenderBin --background --factory-startup --disable-autoexec --offline-mode `
@@ -127,6 +152,22 @@ An export command returning success is not a round-trip pass.
 Compute source and imported dimensions from the actual evaluated/imported mesh vertices in world space. Do not compare a pre-modifier `Object.dimensions` or raw `bound_box` against another pre-modifier value and call that a round-trip pass.
 
 For a clean Blender GLB audit, repeat the source gates through the same schema:
+
+```sh
+"$blender_bin" --background --factory-startup --disable-autoexec --offline-mode \
+  --python-exit-code 1 --python "$audit_script" -- \
+  --input-file "$delivery_glb" --output "$imported_audit" \
+  --output-root "$output_dir" --force --frame 1 \
+  --require-mesh --require-uv --require-material --max-triangles 20000 \
+  --expected-dimensions-m 2.0 0.8 1.1 --expected-ground-z-m 0
+
+uv run --python 3.11 python "$compare_script" \
+  --source "$source_audit" --imported "$imported_audit" \
+  --delivery "$delivery_glb" --output "$round_trip_report" \
+  --output-root "$output_dir" --force
+```
+
+Windows PowerShell equivalent:
 
 ```powershell
 & $BlenderBin --background --factory-startup --disable-autoexec --offline-mode `
@@ -201,6 +242,14 @@ For an image-textured character or any Blender-to-Unity look-development job, re
 Write `auto-ta-receipt.json` beside the delivery using [references/receipt-schema.md](references/receipt-schema.md). Include assumptions, input/output hashes, tools and versions, executed commands or tool actions, gates with `pass`/`fail`/`not_tested`, visual evidence paths, round-trip evidence, licenses, known limitations, and recommended next step.
 
 Validate the receipt before reporting completion:
+
+```sh
+uv run --python 3.11 python "$receipt_validator" "$receipt" \
+  --blender-bin "$blender_bin" \
+  --output "$receipt_validation" --output-root "$output_dir" --force
+```
+
+Windows PowerShell equivalent:
 
 ```powershell
 uv run --python 3.11 python $ReceiptValidator $Receipt `

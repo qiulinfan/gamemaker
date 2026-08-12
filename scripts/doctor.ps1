@@ -10,6 +10,9 @@ $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) {
     throw 'Gamemaker doctor.ps1 requires PowerShell 7 or newer (pwsh).'
 }
+if (-not $IsWindows) {
+    throw 'Gamemaker doctor.ps1 is the Windows lifecycle entrypoint; use ./scripts/doctor.sh on macOS or Linux.'
+}
 . (Join-Path $PSScriptRoot 'LinkContract.ps1')
 
 $failures = [System.Collections.Generic.List[string]]::new()

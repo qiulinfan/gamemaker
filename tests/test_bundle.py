@@ -93,12 +93,31 @@ class BundleContractTests(unittest.TestCase):
         for marker in (
             "${CODEX_HOME}/workflow-products/gamemaker",
             "${CODEX_HOME}/state/gamemaker/install-receipt.json",
+            "iTerm2",
+            "`zsh`",
             "PowerShell 7+",
             "$env:CODEX_HOME",
             "detached hardlink",
             "unrelated game cwd",
         ):
             self.assertIn(marker, readme)
+
+    def test_readme_routes_macos_to_iterm2_and_posix_only(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        macos = readme.split("macOS —", 1)[1].split("Linux —", 1)[0]
+        self.assertIn("iTerm2", macos)
+        self.assertIn("`zsh`", macos)
+        self.assertIn("`bash`", macos)
+        self.assertIn("./scripts/link.sh", macos)
+        self.assertIn("./scripts/doctor.sh", macos)
+        self.assertNotIn("pwsh", macos.lower())
+
+    def test_powershell_lifecycle_entrypoints_are_windows_only(self) -> None:
+        for script_name in ("link.ps1", "doctor.ps1", "unlink.ps1"):
+            script = (ROOT / "scripts" / script_name).read_text(encoding="utf-8")
+            with self.subTest(script=script_name):
+                self.assertIn("if (-not $IsWindows)", script)
+                self.assertIn("use ./scripts/", script)
 
     def test_unity_mutating_skills_have_exact_project_identity_gate(self) -> None:
         contract_files = [
