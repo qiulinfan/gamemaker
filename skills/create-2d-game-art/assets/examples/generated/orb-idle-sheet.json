@@ -1,0 +1,120 @@
+{
+  "artifact": {
+    "alpha": {
+      "fully_opaque_pixels": 144,
+      "fully_transparent_pixels": 486,
+      "partially_transparent_pixels": 0
+    },
+    "binding_sha256": "2c6d0a71c4e221ea5489c8617ce4138beee0442ab3269b2b33f83f2cf317672f",
+    "format": "PNG",
+    "mode": "RGBA",
+    "palette_color_count_visible": 5,
+    "path": "generated/orb-idle-sheet.png",
+    "rgba_sha256": "bfe25fe047e823da8637a1db54b097b82c19f27fa9f10a2b4f7d17f12e1b7711",
+    "sha256": "1dbe547244bd6e32dc32c22701e7565c02014e1f9a398ea3ee27160aad0e4269",
+    "size_px": [
+      35,
+      18
+    ]
+  },
+  "contract": {
+    "layout": {
+      "columns": 2,
+      "frame_count": 2,
+      "frame_size_px": [
+        16,
+        16
+      ],
+      "origin": "top-left",
+      "padding_px": 1,
+      "pivot_origin": "bottom-left",
+      "rows": 1
+    },
+    "processing": {
+      "alpha_threshold": 1,
+      "anchor": "bottom-center",
+      "background": "corner-connected",
+      "background_tolerance": 8,
+      "colors": 5,
+      "contrast": 1.0,
+      "dither": false,
+      "fit": "contain",
+      "frame_size_px": [
+        16,
+        16
+      ],
+      "palette": "oklab",
+      "resample": "nearest",
+      "seed": 123
+    }
+  },
+  "frames": [
+    {
+      "direction": "south",
+      "duration_ms": 140,
+      "id": "orb_idle_0",
+      "pivot_px_from_bottom_left": [
+        8,
+        0
+      ],
+      "processed_rgba_sha256": "67c3d65947cae0770b9f5df65e7a636a1e13ecc02402ffb858e0713b18d6351a",
+      "rect_px_top_left": {
+        "height": 16,
+        "width": 16,
+        "x": 1,
+        "y": 1
+      },
+      "source": {
+        "path": "source/orb-idle-0.ppm",
+        "rgba_sha256": "5b98a541bb255fda8e89b5bc3804d1b4dd903fc47c6e6cf1c836c92cfcc4def4",
+        "sha256": "df73ed5b6d139dfc9335cbb73f4b06f8852e7d23c630c0b496910eaa1dd09099",
+        "size_px": [
+          8,
+          8
+        ]
+      },
+      "state": "idle"
+    },
+    {
+      "direction": "south",
+      "duration_ms": 140,
+      "id": "orb_idle_1",
+      "pivot_px_from_bottom_left": [
+        8,
+        0
+      ],
+      "processed_rgba_sha256": "283f21753713f78941363a488184742773d58a1130c6841465ad8ad971891440",
+      "rect_px_top_left": {
+        "height": 16,
+        "width": 16,
+        "x": 18,
+        "y": 1
+      },
+      "source": {
+        "path": "source/orb-idle-1.ppm",
+        "rgba_sha256": "232eb58d92a68479a4b8a1c87239cc04fd8505431e4e7eb6b06002534eb970dc",
+        "sha256": "eed7ef0248cb608e917fee6de2d9bd79eafcad377f4b0f15dcfbf178f1f833cd",
+        "size_px": [
+          8,
+          8
+        ]
+      },
+      "state": "idle"
+    }
+  ],
+  "operation": "build",
+  "preview": {
+    "path": "generated/orb-idle-preview.png",
+    "scale": 6,
+    "sha256": "04ea40c6ae48811b42b0ba0a9d763a2202f16d02610edbb3da1bce653468e803",
+    "size_px": [
+      210,
+      108
+    ]
+  },
+  "schema_version": 1,
+  "tool": {
+    "name": "create-2d-game-art.sprite-pipeline",
+    "version": "1.0.0"
+  }
+}

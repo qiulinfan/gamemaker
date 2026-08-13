@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create 2D Game Art"
+  short_description: "Create and validate production-ready 2D game art"
+  default_prompt: "Use $create-2d-game-art to create and validate a sprite sheet for my game."

@@ -1,6 +1,6 @@
 ---
 name: build-unity-scene
-description: Read a Unity project's architecture and level requirements, then create or modify a Unity scene that respects the documented code boundaries, content structure, asset licenses, and validation workflow. Use when a programming agent needs to lay out a level, wire scene objects and components, create reusable prefabs, bind existing gameplay scripts, add camera and lighting, configure build scenes, or turn a documented prototype into a technically valid Unity scene. This skill builds and validates scenes but leaves exploratory gameplay evaluation to play-unity-game.
+description: Read a Unity project's architecture and level requirements, then import project-ready 2D sprite deliveries or create and modify a Unity scene while respecting documented code boundaries, content structure, asset licenses, and validation workflow. Use when a programming agent needs to configure SpriteImporters and AnimationClips from an audited 2D manifest, lay out a level, wire scene objects and components, create reusable prefabs, bind existing gameplay scripts, add camera and lighting, configure build scenes, or turn a documented prototype into a technically valid Unity scene. This skill builds and validates scenes but leaves exploratory gameplay evaluation to play-unity-game.
 ---
 
 # Build Unity Scene
@@ -51,6 +51,18 @@ exact project-identity gate:
    tags/layers, and relevant assets.
 8. Search actual project shaders before assigning materials.
 9. Reflect unfamiliar Unity or package APIs before writing C#.
+
+## Import Audited 2D Art
+
+When the input is a sprite or sprite sheet produced by
+`$create-2d-game-art`, read and follow
+[references/2d-sprite-import.md](references/2d-sprite-import.md) before the
+first import mutation. Treat the PNG hash, JSON manifest, passing audit, and
+accepted asset contract as one delivery. Configure and then re-read the exact
+`TextureImporter`; consume manifest rectangles, top-left-to-bottom-left
+coordinate conversion, pivots, state, direction, frame order, and
+`duration_ms`; and bind every generated Sprite and AnimationClip back to the
+delivery hashes. A copied PNG or plausible-looking slice is not import proof.
 
 ## Plan the Scene
 

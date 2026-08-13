@@ -1,6 +1,6 @@
 ---
 name: coordinate-game-production
-description: Coordinate an end-to-end game-production iteration across design, programming, technical art, sourced art, and independent play verification. Use when a producer agent must turn an idea or issue into a bounded vertical slice, classify it as design discovery, level, feature, system, art, or mixed work, delegate through Codex agents, enforce dependency and write ownership, review evidence, route defects, and close or continue an agile iteration without relying on a project-specific orchestrator.
+description: Coordinate an end-to-end game-production iteration across design, programming, 2D and 3D art production, sourced art, and independent play verification. Use when a producer agent must turn an idea or issue into a bounded vertical slice, classify it as design discovery, level, feature, system, art, or mixed work, delegate through Codex agents, enforce dependency and write ownership, review evidence, route defects, and close or continue an agile iteration without relying on a project-specific orchestrator.
 ---
 
 # Coordinate Game Production
@@ -59,7 +59,8 @@ Choose one primary route:
 | Level | Spatial layout, encounter flow, pacing, puzzle, or scenario changes | `iterate-unity-level` |
 | Feature | A player-facing capability or interaction is added | `deliver-unity-feature` |
 | System/module | Reusable state, data, services, tools, or infrastructure are added | `deliver-unity-feature` |
-| Original/adapted art | Geometry, materials, rigging, lookdev, animation, or VFX are produced | `auto-ta` |
+| Standalone 2D art | Sprites, sprite sheets, frame animation, tilesets, icons, UI, portraits, or backgrounds are created or adapted | `create-2d-game-art` |
+| 3D technical art | Geometry, 3D materials, rigging, skeletal animation, lookdev, shaders, or VFX are produced | `auto-ta` |
 | Sourced art | Existing art must be selected, licensed, audited, or imported | `search-game-art` |
 | Character alignment | A humanoid and external animation source must work together | `character-rig-animation-alignment` |
 | Mixed | Several routes share one acceptance path | Order them by dependency and ship one vertical slice |

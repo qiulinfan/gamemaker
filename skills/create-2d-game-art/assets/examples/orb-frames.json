@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "frames": [
+    {
+      "path": "source/orb-idle-0.ppm",
+      "id": "orb_idle_0",
+      "state": "idle",
+      "direction": "south",
+      "duration_ms": 140
+    },
+    {
+      "path": "source/orb-idle-1.ppm",
+      "id": "orb_idle_1",
+      "state": "idle",
+      "direction": "south",
+      "duration_ms": 140
+    }
+  ]
+}

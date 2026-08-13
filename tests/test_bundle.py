@@ -31,6 +31,7 @@ class BundleContractTests(unittest.TestCase):
                 "character-rig-animation-alignment",
                 "configure-unity-mcp",
                 "coordinate-game-production",
+                "create-2d-game-art",
                 "deliver-unity-feature",
                 "discuss-game-design",
                 "iterate-unity-level",
@@ -99,8 +100,12 @@ class BundleContractTests(unittest.TestCase):
             "$env:CODEX_HOME",
             "detached hardlink",
             "unrelated game cwd",
+            "Python 3.11+ and `uv`",
         ):
             self.assertIn(marker, readme)
+
+        self.assertIn("command -v uv", (ROOT / "scripts/doctor.sh").read_text(encoding="utf-8"))
+        self.assertIn("Get-Command uv", (ROOT / "scripts/doctor.ps1").read_text(encoding="utf-8"))
 
     def test_readme_routes_macos_to_iterm2_and_posix_only(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

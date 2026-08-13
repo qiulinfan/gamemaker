@@ -26,6 +26,10 @@ if command -v python3 >/dev/null 2>&1; then python_bin=python3
 elif command -v python >/dev/null 2>&1; then python_bin=python
 else echo "Python 3.11+ is required for bundle validation." >&2; exit 1
 fi
+command -v uv >/dev/null 2>&1 || {
+    echo "uv is required for locked Skill runtimes and validation." >&2
+    exit 1
+}
 
 set -- "$python_bin" "$script_dir/posix_link_manager.py" doctor --root "$repo_root" --codex-home "$codex_home"
 [ "$skip_link_check" -eq 0 ] || set -- "$@" --skip-link-check

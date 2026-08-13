@@ -11,11 +11,18 @@ The initial Skill sources were migrated from
 `0e4cce8a474197170942e9b10984706bb9b95a05`. Generated Python cache files were
 not migrated. Project-specific facts were separated into opt-in profiles.
 
+The deterministic raster core of `create-2d-game-art` was redesigned from the
+generalizable parts of `qiulinfan/ImageToPixel` revision
+`152bab66d3def65e6eaa5cd6ba97c00ac754ee31`. Notebook-driven glue, generated
+outputs, caches, and character-specific source art were intentionally not
+migrated into the portable Skill.
+
 ## What is included
 
-- `skills/`: twelve portable Agent Skills covering production coordination,
+- `skills/`: thirteen portable Agent Skills covering production coordination,
   design, Unity scenes/features/levels, Unity MCP, playtesting, game-art search,
-  technical art, rig alignment, and bounded Windows capture.
+  deterministic 2D sprite production, 3D technical art, rig alignment, and
+  bounded Windows capture.
 - `workflows/`: the end-to-end production map, agile iteration state machine,
   and handoff contract.
 - `.codex/agents/`: namespaced producer, designer, programmer, technical-art,
@@ -51,8 +58,10 @@ The linkers point Codex directly at this checkout. Editing a Skill or custom
 agent here therefore changes what a newly started Codex task loads; no copied
 installation is created.
 
-Runtime requirements are Python 3.11+ on every platform. On macOS, use iTerm2
-as the terminal emulator and run the POSIX lifecycle in `zsh` or `bash`;
+Runtime requirements are Python 3.11+ and `uv` on every platform. `uv` runs
+Skills with their locked inline dependencies; doctor fails closed when it is
+missing. On macOS, use iTerm2 as the terminal emulator and run the POSIX
+lifecycle in `zsh` or `bash`;
 iTerm2 is not itself a shell, and PowerShell is not a macOS requirement. Linux
 uses the same POSIX lifecycle. Windows uses PowerShell 7+ (`pwsh`) for the
 Windows lifecycle and capture scripts. Windows PowerShell 5.1 is unsupported,
@@ -88,7 +97,7 @@ still refuse to replace non-links.
 
 Before the first `CODEX_HOME` write, the linker validates the manifest and its
 exact Skill, agent, workflow, and profile inventories. It then creates direct
-links for the twelve Skills, seven namespaced agents, and the complete product
+links for the thirteen Skills, seven namespaced agents, and the complete product
 root at `${CODEX_HOME}/workflow-products/gamemaker`. Producer workflows resolve
 `workflow.bundle.toml`, workflow files, and explicitly selected profiles only
 through that canonical product root, so they work from an unrelated game cwd.

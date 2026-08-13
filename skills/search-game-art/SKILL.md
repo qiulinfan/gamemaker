@@ -73,6 +73,13 @@ Search each high-priority row across multiple query families, not one literal ph
 <creator tag or collection> + rigged/downloadable + <license>
 ```
 
+For sprites, sprite sheets, frame sequences, atlases, tilesets, icons, UI art,
+portraits, backgrounds, or flipbook VFX, read
+[references/2d-sprite-sources.md](references/2d-sprite-sources.md). Search its
+source tiers in order, adapting coverage to the role. Record sheet-versus-frame
+form, dimensions, layout, timing, directions, alpha, pivots, exact downloadable
+edition, editable-source claims, and governing license as separate evidence.
+
 Record the query families and source classes tried. For authored 3D characters and unusual stylized models, the default coverage should include:
 
 - **Sketchfab** for creator-published, downloadable, scanned, hand-painted, and niche stylized models; inspect the original model page, creator profile, tags, collections, downloadable state, per-item license, geometry/animation declarations, and any linked creator download page;
@@ -101,6 +108,12 @@ Open the original page for every serious candidate and record:
 Also record a compact search-coverage receipt using [references/asset-records.md](references/asset-records.md). A strong candidate discovered late is evidence that earlier platform or vocabulary coverage was incomplete; add the missing source class or query family rather than treating the result as luck.
 
 If the source and license disagree, permission is unclear, or the only evidence is a re-upload, exclude the candidate from the recommended shortlist. Prefer CC0 for prototypes. Treat CC BY, share-alike, and marketplace licenses as explicit tradeoffs. Do not recommend non-commercial assets for a potentially commercial project.
+
+For 2D listings, keep `editable_sources_claimed` separate from
+`editable_sources_verified`. A store tag, title containing “spritesheet,” PNG
+preview, price, or download button does not establish the delivered grid,
+frames, layered sources, or permission. Use the 2D candidate extension in
+[references/2d-sprite-sources.md](references/2d-sprite-sources.md).
 
 ## Compare Candidates
 
@@ -218,6 +231,13 @@ Do not place credentials, purchase receipts, cookies, or personal account data i
 ## Integrate with Unity
 
 When Unity integration is requested, hand the audited candidate and import record to `$build-unity-scene`. That workflow must inspect the project architecture, place third-party files under the project's established asset structure, configure importer settings, create only useful prefabs/materials/controllers, and validate in the Editor.
+
+When an acquired 2D asset needs palette, alpha, size, pivot, frame-order,
+timing, sheet, tileset, icon, UI, portrait, or background production work before
+engine import, hand the audited source and provenance record to
+`$create-2d-game-art`. Keep this Skill responsible for source and license
+evidence and let the 2D production Skill own derivative artifacts and their
+visual/technical receipt.
 
 Do not destabilize a working character or scene merely to test a new rig. Prefer a duplicate prefab, isolated validation scene, or staged asset marked pending compatibility when a reversible test is available.
 

@@ -1,0 +1,85 @@
+schema_version: 1
+job:
+  id: orb-idle-example-v1
+  status: prototype
+  contract_path: orb-production-contract.yaml
+sources:
+  - path: source/orb-idle-0.ppm
+    role: user_authored
+    sha256: df73ed5b6d139dfc9335cbb73f4b06f8852e7d23c630c0b496910eaa1dd09099
+    creator: Gamemaker example author
+    source_url: ""
+    license: user-owned example source
+    generation_provenance: ""
+  - path: source/orb-idle-1.ppm
+    role: user_authored
+    sha256: eed7ef0248cb608e917fee6de2d9bd79eafcad377f4b0f15dcfbf178f1f833cd
+    creator: Gamemaker example author
+    source_url: ""
+    license: user-owned example source
+    generation_provenance: ""
+outputs:
+  - path: generated/orb-idle-sheet.png
+    role: engine_delivery
+    sha256: 1dbe547244bd6e32dc32c22701e7565c02014e1f9a398ea3ee27160aad0e4269
+  - path: generated/orb-idle-sheet.json
+    role: frame_manifest
+    sha256: e12dc4afa217a54340695e4ba1647bc998821ee449975076a1e6fd703629515a
+  - path: generated/orb-idle-preview.png
+    role: preview
+    sha256: 04ea40c6ae48811b42b0ba0a9d763a2202f16d02610edbb3da1bce653468e803
+  - path: generated/orb-idle-audit.json
+    role: audit
+    sha256: 19dcd63d65cae27dbabb7cc06b555dbf3852e27c22d75fe287866604ce77da60
+implementation:
+  tool: create-2d-game-art.sprite-pipeline
+  version: 1.0.0
+  command_or_action: Rebuild the committed deterministic orb frame example and audit it
+  processing_contract:
+    frame_size_px: [16, 16]
+    palette: oklab
+    colors: 5
+    seed: 123
+evidence:
+  artifact:
+    - id: structural-audit
+      path: generated/orb-idle-audit.json
+      sha256: 19dcd63d65cae27dbabb7cc06b555dbf3852e27c22d75fe287866604ce77da60
+      description: Hash-bound structural audit of the sheet and frame manifest
+  visual_native_scale:
+    - id: checkerboard-preview
+      path: generated/orb-idle-preview.png
+      sha256: 04ea40c6ae48811b42b0ba0a9d763a2202f16d02610edbb3da1bce653468e803
+      description: Nearest-neighbor checkerboard preview inspected at native logical scale
+  visual_gameplay_scale: []
+  animation: []
+  tileset_or_ui: []
+  engine_import: []
+gates:
+  - id: artifact.structural
+    required: true
+    result: pass
+    evidence: [artifact:structural-audit]
+    reason: ""
+  - id: visual.native_scale
+    required: true
+    result: pass
+    evidence: [visual_native_scale:checkerboard-preview]
+    reason: ""
+  - id: visual.gameplay_scale
+    required: true
+    result: not_tested
+    evidence: []
+    reason: The example is not bound to a target game camera.
+  - id: engine.import
+    required: true
+    result: not_tested
+    evidence: []
+    reason: No target Unity project is authorized for this portable example.
+modifications:
+  - Normalized two source frames onto 16 by 16 canvases.
+  - Reduced the visible palette deterministically with OKLab clustering.
+limitations:
+  - Gameplay-camera readability and engine import remain untested.
+next_owner: gamemaker-programmer
+next_action: Import this exact delivery into an authorized project and issue new engine-bound evidence.

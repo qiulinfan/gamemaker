@@ -11,7 +11,7 @@ parent:
   outcome: ""
 slice:
   id: ""
-  route: design|level|feature|system|sourced_art|technical_art|mixed
+  route: design|level|feature|system|sourced_art|two_d_art|technical_art|mixed
   status: prototype|validated|blocked|failed
 workspace:
   canonical_root: ""
@@ -38,8 +38,10 @@ evidence:
   reset_or_replay: []
 gates:
   - id: ""
-    result: pass|fail|not_tested
+    required: true
+    result: pass|fail|not_tested|not_applicable
     evidence: []
+    reason: ""
 external_effects:
   authorized: []
   performed: []
@@ -54,8 +56,8 @@ next_action: ""
   an artifact identity.
 - Hash immutable sources and durable deliveries when the selected Skill
   requires it.
-- Use `not_tested` with a reason. Never omit an expected gate to manufacture a
-  pass.
+- Use `not_tested` or `not_applicable` with a reason. A required gate cannot be
+  `not_applicable`. Never omit an expected gate to manufacture a pass.
 - Separate local validation, mounted-folder submission, and independently
   confirmed remote visibility.
 - Include source and license evidence before an acquired asset becomes accepted

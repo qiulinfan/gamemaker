@@ -1,0 +1,496 @@
+{
+  "artifact": {
+    "manifest_sha256": "e12dc4afa217a54340695e4ba1647bc998821ee449975076a1e6fd703629515a",
+    "png": {
+      "alpha": {
+        "fully_opaque_pixels": 144,
+        "fully_transparent_pixels": 486,
+        "partially_transparent_pixels": 0
+      },
+      "binding_sha256": "2c6d0a71c4e221ea5489c8617ce4138beee0442ab3269b2b33f83f2cf317672f",
+      "format": "PNG",
+      "mode": "RGBA",
+      "palette_color_count_visible": 5,
+      "rgba_sha256": "bfe25fe047e823da8637a1db54b097b82c19f27fa9f10a2b4f7d17f12e1b7711",
+      "size_px": [
+        35,
+        18
+      ]
+    },
+    "png_sha256": "1dbe547244bd6e32dc32c22701e7565c02014e1f9a398ea3ee27160aad0e4269"
+  },
+  "checks": [
+    {
+      "id": "schema.version",
+      "observed": 1,
+      "result": "pass"
+    },
+    {
+      "id": "schema.tool",
+      "observed": {
+        "name": "create-2d-game-art.sprite-pipeline",
+        "version": "1.0.0"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "schema.operation",
+      "observed": "build",
+      "result": "pass"
+    },
+    {
+      "id": "schema.top_level",
+      "observed": [
+        "artifact",
+        "contract",
+        "frames",
+        "operation",
+        "preview",
+        "schema_version",
+        "tool"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "artifact.record",
+      "observed": "dict",
+      "result": "pass"
+    },
+    {
+      "id": "artifact.schema",
+      "observed": [
+        "alpha",
+        "binding_sha256",
+        "format",
+        "mode",
+        "palette_color_count_visible",
+        "path",
+        "rgba_sha256",
+        "sha256",
+        "size_px"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "artifact.path",
+      "observed": "generated/orb-idle-sheet.png",
+      "result": "pass"
+    },
+    {
+      "id": "artifact.path_confined",
+      "observed": "generated/orb-idle-sheet.png",
+      "result": "pass"
+    },
+    {
+      "id": "artifact.path_binding",
+      "observed": "generated/orb-idle-sheet.png",
+      "result": "pass"
+    },
+    {
+      "id": "artifact.sha256",
+      "observed": "1dbe547244bd6e32dc32c22701e7565c02014e1f9a398ea3ee27160aad0e4269",
+      "result": "pass"
+    },
+    {
+      "id": "artifact.rgba_sha256",
+      "observed": "bfe25fe047e823da8637a1db54b097b82c19f27fa9f10a2b4f7d17f12e1b7711",
+      "result": "pass"
+    },
+    {
+      "id": "artifact.binding",
+      "observed": {
+        "declared": "2c6d0a71c4e221ea5489c8617ce4138beee0442ab3269b2b33f83f2cf317672f",
+        "encoded": "2c6d0a71c4e221ea5489c8617ce4138beee0442ab3269b2b33f83f2cf317672f",
+        "expected": "2c6d0a71c4e221ea5489c8617ce4138beee0442ab3269b2b33f83f2cf317672f"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "artifact.size",
+      "observed": [
+        35,
+        18
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "artifact.format",
+      "observed": {
+        "declared": "PNG",
+        "encoded": "PNG"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "artifact.mode",
+      "observed": {
+        "declared": "RGBA",
+        "encoded": "RGBA"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "artifact.palette",
+      "observed": 5,
+      "result": "pass"
+    },
+    {
+      "id": "artifact.alpha",
+      "observed": {
+        "fully_opaque_pixels": 144,
+        "fully_transparent_pixels": 486,
+        "partially_transparent_pixels": 0
+      },
+      "result": "pass"
+    },
+    {
+      "id": "contract.record",
+      "observed": "dict",
+      "result": "pass"
+    },
+    {
+      "id": "contract.schema",
+      "observed": [
+        "layout",
+        "processing"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "contract.processing_schema",
+      "observed": {
+        "alpha_threshold": 1,
+        "anchor": "bottom-center",
+        "background": "corner-connected",
+        "background_tolerance": 8,
+        "colors": 5,
+        "contrast": 1.0,
+        "dither": false,
+        "fit": "contain",
+        "frame_size_px": [
+          16,
+          16
+        ],
+        "palette": "oklab",
+        "resample": "nearest",
+        "seed": 123
+      },
+      "result": "pass"
+    },
+    {
+      "id": "contract.processing_values",
+      "observed": {
+        "alpha_threshold": 1,
+        "anchor": "bottom-center",
+        "background": "corner-connected",
+        "background_tolerance": 8,
+        "colors": 5,
+        "contrast": 1.0,
+        "dither": false,
+        "fit": "contain",
+        "frame_size_px": [
+          16,
+          16
+        ],
+        "palette": "oklab",
+        "resample": "nearest",
+        "seed": 123
+      },
+      "result": "pass"
+    },
+    {
+      "id": "artifact.palette_budget",
+      "observed": 5,
+      "result": "pass"
+    },
+    {
+      "id": "preview.schema",
+      "observed": {
+        "path": "generated/orb-idle-preview.png",
+        "scale": 6,
+        "sha256": "04ea40c6ae48811b42b0ba0a9d763a2202f16d02610edbb3da1bce653468e803",
+        "size_px": [
+          210,
+          108
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "id": "preview.path_binding",
+      "observed": "generated/orb-idle-preview.png",
+      "result": "pass"
+    },
+    {
+      "id": "preview.contract_size",
+      "observed": [
+        210,
+        108
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "preview.exists",
+      "observed": "generated/orb-idle-preview.png",
+      "result": "pass"
+    },
+    {
+      "id": "preview.sha256",
+      "observed": "04ea40c6ae48811b42b0ba0a9d763a2202f16d02610edbb3da1bce653468e803",
+      "result": "pass"
+    },
+    {
+      "id": "preview.format",
+      "observed": "PNG",
+      "result": "pass"
+    },
+    {
+      "id": "preview.mode",
+      "observed": "RGBA",
+      "result": "pass"
+    },
+    {
+      "id": "preview.content",
+      "observed": {
+        "actual_rgba_sha256": "5d7747ae2d1375de1f9f8f05ebebed595a5f12fb17e1de607d47274d28e75408",
+        "expected_rgba_sha256": "5d7747ae2d1375de1f9f8f05ebebed595a5f12fb17e1de607d47274d28e75408"
+      },
+      "result": "pass"
+    },
+    {
+      "id": "preview.size",
+      "observed": [
+        210,
+        108
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "layout.frames",
+      "observed": 2,
+      "result": "pass"
+    },
+    {
+      "id": "layout.record",
+      "observed": {
+        "columns": 2,
+        "frame_count": 2,
+        "frame_size_px": [
+          16,
+          16
+        ],
+        "origin": "top-left",
+        "padding_px": 1,
+        "pivot_origin": "bottom-left",
+        "rows": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "layout.frame_count",
+      "observed": 2,
+      "result": "pass"
+    },
+    {
+      "id": "layout.values",
+      "observed": {
+        "columns": 2,
+        "frame_count": 2,
+        "frame_size_px": [
+          16,
+          16
+        ],
+        "origin": "top-left",
+        "padding_px": 1,
+        "pivot_origin": "bottom-left",
+        "rows": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "layout.sheet_size",
+      "observed": [
+        35,
+        18
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.schema",
+      "observed": [
+        "direction",
+        "duration_ms",
+        "id",
+        "pivot_px_from_bottom_left",
+        "processed_rgba_sha256",
+        "rect_px_top_left",
+        "source",
+        "state"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.id",
+      "observed": "orb_idle_0",
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.duration",
+      "observed": 140,
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.state",
+      "observed": "idle",
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.direction",
+      "observed": "south",
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.pivot",
+      "observed": [
+        8,
+        0
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.source",
+      "observed": {
+        "path": "source/orb-idle-0.ppm",
+        "rgba_sha256": "5b98a541bb255fda8e89b5bc3804d1b4dd903fc47c6e6cf1c836c92cfcc4def4",
+        "sha256": "df73ed5b6d139dfc9335cbb73f4b06f8852e7d23c630c0b496910eaa1dd09099",
+        "size_px": [
+          8,
+          8
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.rect",
+      "observed": {
+        "height": 16,
+        "width": 16,
+        "x": 1,
+        "y": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.grid",
+      "observed": {
+        "height": 16,
+        "width": 16,
+        "x": 1,
+        "y": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "frame.0.rgba_sha256",
+      "observed": "67c3d65947cae0770b9f5df65e7a636a1e13ecc02402ffb858e0713b18d6351a",
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.schema",
+      "observed": [
+        "direction",
+        "duration_ms",
+        "id",
+        "pivot_px_from_bottom_left",
+        "processed_rgba_sha256",
+        "rect_px_top_left",
+        "source",
+        "state"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.id",
+      "observed": "orb_idle_1",
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.duration",
+      "observed": 140,
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.state",
+      "observed": "idle",
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.direction",
+      "observed": "south",
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.pivot",
+      "observed": [
+        8,
+        0
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.source",
+      "observed": {
+        "path": "source/orb-idle-1.ppm",
+        "rgba_sha256": "232eb58d92a68479a4b8a1c87239cc04fd8505431e4e7eb6b06002534eb970dc",
+        "sha256": "eed7ef0248cb608e917fee6de2d9bd79eafcad377f4b0f15dcfbf178f1f833cd",
+        "size_px": [
+          8,
+          8
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.rect",
+      "observed": {
+        "height": 16,
+        "width": 16,
+        "x": 18,
+        "y": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.grid",
+      "observed": {
+        "height": 16,
+        "width": 16,
+        "x": 18,
+        "y": 1
+      },
+      "result": "pass"
+    },
+    {
+      "id": "frame.1.rgba_sha256",
+      "observed": "283f21753713f78941363a488184742773d58a1130c6841465ad8ad971891440",
+      "result": "pass"
+    },
+    {
+      "id": "layout.no_overlap",
+      "observed": false,
+      "result": "pass"
+    },
+    {
+      "id": "layout.transparent_gutters",
+      "observed": 0,
+      "result": "pass"
+    }
+  ],
+  "operation": "audit",
+  "schema_version": 1,
+  "tool": {
+    "name": "create-2d-game-art.sprite-pipeline",
+    "version": "1.0.0"
+  },
+  "verdict": "pass"
+}

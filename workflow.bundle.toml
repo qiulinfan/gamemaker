@@ -2,8 +2,8 @@ schema_version = 1
 
 [bundle]
 name = "gamemaker"
-version = "0.1.0"
-description = "Portable evidence-driven game-production workflow bundle for Codex"
+version = "0.2.0"
+description = "Portable evidence-driven game-production workflow bundle for Codex with 2D and 3D art production"
 skills_root = "skills"
 workflows_root = "workflows"
 profiles_root = "profiles"
@@ -13,6 +13,14 @@ agents_root = ".codex/agents"
 source_repository = "git@github.com:qiulinfan/qiulinfan.github.io.git"
 source_revision = "0e4cce8a474197170942e9b10984706bb9b95a05"
 migrated_generated_files = false
+
+[[provenance.sources]]
+repository = "https://github.com/qiulinfan/ImageToPixel.git"
+revision = "152bab66d3def65e6eaa5cd6ba97c00ac754ee31"
+scope = "General pixelization, ordered-frame processing, preview, sprite-sheet composition, and audit concepts reimplemented as create-2d-game-art"
+source_license = "none_declared"
+migrated_project_assets = false
+migrated_notebooks = false
 
 [legal]
 status = "unresolved"
@@ -77,6 +85,11 @@ path = "skills/search-game-art"
 phases = ["art-discovery", "provenance"]
 
 [[skills]]
+name = "create-2d-game-art"
+path = "skills/create-2d-game-art"
+phases = ["art-production", "technical-validation"]
+
+[[skills]]
 name = "auto-ta"
 path = "skills/auto-ta"
 phases = ["art-production", "technical-validation"]
@@ -119,7 +132,7 @@ primary_skills = ["deliver-unity-feature", "iterate-unity-level", "build-unity-s
 [[agents]]
 name = "gamemaker_technical_artist"
 path = ".codex/agents/gamemaker-technical-artist.toml"
-primary_skills = ["auto-ta", "character-rig-animation-alignment"]
+primary_skills = ["create-2d-game-art", "auto-ta", "character-rig-animation-alignment"]
 
 [[agents]]
 name = "gamemaker_art_scout"

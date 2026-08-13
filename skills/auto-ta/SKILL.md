@@ -7,7 +7,7 @@ description: "A novice-friendly 3D Technical Art Skill for game assets: turn a p
 
 ## Purpose
 
-Act as a 3D technical artist for a user who may know no technical-art vocabulary. Convert intent into a small, reversible 3D production job, execute it on an available DCC or engine surface, and return the asset plus evidence. Do not use this Skill for standalone 2D art, sprite creation, or sprite-sheet production; 2D imagery belongs here only as a source or component of a 3D asset. A script, README claim, render, or provider response is not by itself a finished game asset.
+Act as a 3D technical artist for a user who may know no technical-art vocabulary. Convert intent into a small, reversible 3D production job, execute it on an available DCC or engine surface, and return the asset plus evidence. Do not use this Skill for standalone 2D art, sprite creation, or sprite-sheet production; route that work to `$create-2d-game-art`. 2D imagery belongs here only as a source or component of a 3D asset. A script, README claim, render, or provider response is not by itself a finished game asset.
 
 Match all user-facing explanations, questions, prompts, and handoffs to the user's language unless they request another language. Keep commands, identifiers, structured keys, action codes, and raw errors unchanged.
 

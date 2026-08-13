@@ -25,7 +25,7 @@ effects, or turn an untested gate into a pass.
 | Triage | Producer | Route and smallest vertical slice | One observable outcome |
 | Design | Designer | Brief, state model, art/programming contract | Definition of ready |
 | Art discovery | Art scout | Requirement matrix, provenance, audited candidate | License and technical fit |
-| Art production | Technical artist | Reversible asset plus receipt | Technical, visual, and round-trip gates |
+| Art production | Technical artist | Reversible 2D or 3D asset plus receipt | Relevant artifact, technical, visual, and round-trip gates |
 | Implementation | Programmer | Runnable code/scene/prefab slice plus tests | Compile and focused checks |
 | Independent play | Playtester | Read-only result and reproduction evidence | Real/player-like path or disclosed fallback |
 | Integration review | Producer/reviewer | Evidence mapped to acceptance | Definition of done |
@@ -43,8 +43,10 @@ confirmation for reused assets.
 - Use the feature/system route when reusable behavior or infrastructure is the
   primary change.
 - Use sourced art when an existing licensed asset can close a defined role.
-- Use technical art for original/adapted geometry, materials, rigs, animation,
-  lookdev, shaders, VFX, or DCC/engine round trips.
+- Use standalone 2D art production for original/adapted sprites, sprite sheets,
+  frame animation, tilesets, icons, UI art, portraits, or backgrounds.
+- Use 3D technical art for original/adapted geometry, 3D materials, rigs,
+  skeletal animation, lookdev, shaders, VFX, or DCC/engine round trips.
 - Use character alignment when a skinned humanoid and external skeletal clips
   must be accepted as one chain.
 - For mixed work, stabilize the behavior contract, then run independent art and

@@ -16,6 +16,10 @@ if (-not $IsWindows) {
 . (Join-Path $PSScriptRoot 'LinkContract.ps1')
 
 $failures = [System.Collections.Generic.List[string]]::new()
+$uvCommand = Get-Command uv -ErrorAction SilentlyContinue
+if ($null -eq $uvCommand) {
+    $failures.Add('uv is required for locked Skill runtimes and validation.')
+}
 $repositoryRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 if ([string]::IsNullOrWhiteSpace($CodexHome)) {
     $CodexHome = $env:CODEX_HOME
