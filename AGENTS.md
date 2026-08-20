@@ -40,3 +40,8 @@
   PowerShell 7+ and run the PowerShell doctor and parser checks.
 - The repository currently has no selected license. Do not infer redistribution
   permission or create a license text without the owner's explicit choice.
+- Claude Code integration is skills-only through
+  `scripts/link-claude-skills.sh` / `scripts/link-claude-skills.ps1`. Keep those
+  scripts independent of `workflow.bundle.toml` and of the receipt-backed Codex
+  link contract; they must install no agents, workflows, profiles, or receipts,
+  and porting the full bundle to Claude Code needs an explicit request.
