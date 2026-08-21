@@ -31,6 +31,7 @@ class BundleContractTests(unittest.TestCase):
                 "coordinate-game-production",
                 "create-2d-game-art",
                 "discuss-game-design",
+                "generate-hosted-game-art",
                 "search-game-art",
                 "write-game-design-brief",
             },

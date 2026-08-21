@@ -1,0 +1,4 @@
+interface:
+  display_name: "Generate Hosted Game Art"
+  short_description: "Probe Meshy/Tencent Cloud keys and run budgeted hosted art generation"
+  default_prompt: "Use $generate-hosted-game-art to probe my hosted art API credential file and report which models and capabilities it can invoke."

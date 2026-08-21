@@ -44,7 +44,14 @@ Invoke `search-game-art` when purchasing, downloading, or adapting a licensed as
 
 ## Hosted 3D and texture providers
 
-Provider-backed generation is optional. Before use, establish the provider and model/version, expected charge or quota, upload boundary, content and license terms, credential availability without exposing the secret, output formats, and independent audit route.
+Provider-backed generation runs through `$generate-hosted-game-art` (Meshy and
+Tencent Cloud, from a user-supplied credential file). When credentials are
+available and the user has authorized a budget, prefer hosted generation for
+original base assets and treat Blender as the downstream adaptation, audit, and
+lookdev layer rather than the primary authoring route. Before use, establish
+the provider and model/version, expected charge or quota (via that Skill's free
+probe), upload boundary, content and license terms, credential availability
+without exposing the secret, output formats, and independent audit route.
 
 Provider success means only that output was returned. Run the same geometry, material, rig, visual, export, and engine gates as locally authored assets.
 

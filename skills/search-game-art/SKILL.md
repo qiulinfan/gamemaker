@@ -80,6 +80,10 @@ source tiers in order, adapting coverage to the role. Record sheet-versus-frame
 form, dimensions, layout, timing, directions, alpha, pivots, exact downloadable
 edition, editable-source claims, and governing license as separate evidence.
 
+For uniformly licensed sources with a public API (currently Poly Haven, CC0),
+acquisition may be scripted; follow the access pattern and provenance
+requirements in [references/source-apis.md](references/source-apis.md).
+
 Record the query families and source classes tried. For authored 3D characters and unusual stylized models, the default coverage should include:
 
 - **Sketchfab** for creator-published, downloadable, scanned, hand-painted, and niche stylized models; inspect the original model page, creator profile, tags, collections, downloadable state, per-item license, geometry/animation declarations, and any linked creator download page;

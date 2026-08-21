@@ -21,9 +21,9 @@ migrated into the portable Skill.
 
 ## What is included
 
-- `skills/`: seven portable Agent Skills covering production coordination,
-  design, game-art search, deterministic 2D sprite production, 3D technical
-  art, and rig alignment.
+- `skills/`: eight portable Agent Skills covering production coordination,
+  design, game-art search, hosted AI generation (Meshy / Tencent Cloud),
+  deterministic 2D sprite production, 3D technical art, and rig alignment.
 - `workflows/`: the end-to-end production map, agile iteration state machine,
   and handoff contract.
 - `.codex/agents/`: namespaced producer, designer, technical-art, art-scout,
@@ -97,7 +97,7 @@ still refuse to replace non-links.
 
 Before the first `CODEX_HOME` write, the linker validates the manifest and its
 exact Skill, agent, workflow, and profile inventories. It then creates direct
-links for the seven Skills, five namespaced agents, and the complete product
+links for the eight Skills, five namespaced agents, and the complete product
 root at `${CODEX_HOME}/workflow-products/gamemaker`. Producer workflows resolve
 `workflow.bundle.toml`, workflow files, and explicitly selected profiles only
 through that canonical product root, so they work from an unrelated game cwd.

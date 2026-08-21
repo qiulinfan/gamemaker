@@ -59,6 +59,7 @@ Choose one primary route:
 | Standalone 2D art | Sprites, sprite sheets, frame animation, tilesets, icons, UI, portraits, or backgrounds are created or adapted | `create-2d-game-art` |
 | 3D technical art | Geometry, 3D materials, rigging, skeletal animation, lookdev, shaders, or VFX are produced | `auto-ta` |
 | Sourced art | Existing art must be selected, licensed, audited, or imported | `search-game-art` |
+| Hosted AI generation | A hosted API (Meshy / Tencent Cloud) should produce the base asset from a user-supplied credential | `generate-hosted-game-art` |
 | Character alignment | A humanoid and external animation source must work together | `character-rig-animation-alignment` |
 | Engine implementation | Code, scenes, levels, or engine features must change | Out of bundle scope — delegate to the target project's own engine workflow and record the dependency |
 | Mixed | Several routes share one acceptance path | Order them by dependency and ship one vertical slice |
