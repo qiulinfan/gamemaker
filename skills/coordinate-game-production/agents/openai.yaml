@@ -1,4 +1,4 @@
 interface:
   display_name: "Coordinate Game Production"
   short_description: "Coordinate an evidence-driven game iteration"
-  default_prompt: "Use $coordinate-game-production to run the next bounded game-production slice through design, implementation, independent verification, and acceptance."
+  default_prompt: "Use $coordinate-game-production to run the next bounded game-production slice through design, art production, integration, and acceptance."

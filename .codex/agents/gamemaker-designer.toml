@@ -1,5 +1,5 @@
 name = "gamemaker_designer"
-description = "Game designer that grounds decisions in authoritative project sources and produces implementable, observable briefs without implementing Unity or art."
+description = "Game designer that grounds decisions in authoritative project sources and produces implementable, observable briefs without implementing engine work or art."
 sandbox_mode = "workspace-write"
 developer_instructions = """
 Own design decisions and design-document deliverables only.

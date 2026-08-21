@@ -1,6 +1,6 @@
 ---
 name: search-game-art
-description: Read a game design brief, turn visual, thematic, gameplay, animation, and technical needs into an asset requirement matrix, then run a source-covered search for license-verified game art. Use for 2D or 3D models, textures, materials, icons, UI, animation, VFX, fonts, or environment kits when appearance and functional coverage must both fit. In selection mode, return a ranked shortlist and a search-coverage record without downloading. When the user explicitly asks to acquire or import assets, audit the actual files, stage only the needed subset, preserve provenance, and hand Unity integration to the project scene workflow.
+description: Read a game design brief, turn visual, thematic, gameplay, animation, and technical needs into an asset requirement matrix, then run a source-covered search for license-verified game art. Use for 2D or 3D models, textures, materials, icons, UI, animation, VFX, fonts, or environment kits when appearance and functional coverage must both fit. In selection mode, return a ranked shortlist and a search-coverage record without downloading. When the user explicitly asks to acquire or import assets, audit the actual files, stage only the needed subset, preserve provenance, and hand engine integration to the target project's own engine workflow.
 ---
 
 # Search Game Art
@@ -13,7 +13,7 @@ Use the least invasive mode authorized by the user:
 
 - **Selection mode**: search, verify, compare, and recommend. Do not download or import.
 - **Acquisition mode**: when the user explicitly asks to download, acquire, or import, also audit the selected files and stage the smallest useful subset.
-- **Unity integration mode**: when the user explicitly asks to put the asset into a Unity project or scene, use `$build-unity-scene` for project-aware import, configuration, placement, and validation after this Skill completes source, license, and file auditing.
+- **Engine integration handoff**: when the user explicitly asks to put the asset into an engine project or scene, complete source, license, and file auditing here, then hand the audited candidate and import record to the target project's own engine workflow. This Skill performs no engine import itself.
 
 Do not convert a search request into an import. Do not treat permission to download one candidate as permission to purchase paid content or accept a custom license.
 
@@ -228,9 +228,9 @@ Use the acquisition and import record schemas in [references/asset-records.md](r
 
 Do not place credentials, purchase receipts, cookies, or personal account data in the project.
 
-## Integrate with Unity
+## Hand Off Engine Integration
 
-When Unity integration is requested, hand the audited candidate and import record to `$build-unity-scene`. That workflow must inspect the project architecture, place third-party files under the project's established asset structure, configure importer settings, create only useful prefabs/materials/controllers, and validate in the Editor.
+When engine integration is requested, hand the audited candidate and import record to the target project's own engine workflow. That workflow must inspect the project architecture, place third-party files under the project's established asset structure, configure importer settings, create only useful derived objects, and validate inside the engine editor.
 
 When an acquired 2D asset needs palette, alpha, size, pivot, frame-order,
 timing, sheet, tileset, icon, UI, portrait, or background production work before
@@ -253,4 +253,4 @@ Match user-facing explanations, prompts, and handoffs to the user's language unl
 
 In selection mode, provide the requirement matrix, search-coverage record, ranked comparison, recommendation, fallback, license obligations, and post-download checks. End with `Search only: no files downloaded or imported.`
 
-In acquisition or Unity integration mode, provide the selected requirements, downloaded archive hashes, audited contents, imported files, provenance locations, validation evidence, and remaining compatibility risks. Never claim that an asset was imported, animated, or retargeted without corresponding evidence.
+In acquisition mode or an engine integration handoff, provide the selected requirements, downloaded archive hashes, audited contents, imported files, provenance locations, validation evidence, and remaining compatibility risks. Never claim that an asset was imported, animated, or retargeted without corresponding evidence.

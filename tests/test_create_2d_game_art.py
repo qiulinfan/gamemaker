@@ -17,7 +17,7 @@ EXAMPLE = SKILL / "assets" / "examples"
 
 
 class Create2DGameArtContractTests(unittest.TestCase):
-    def test_skill_owns_standalone_2d_and_hands_unity_off(self) -> None:
+    def test_skill_owns_standalone_2d_and_stays_engine_neutral(self) -> None:
         text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         for marker in (
             "standalone 2D",
@@ -25,8 +25,7 @@ class Create2DGameArtContractTests(unittest.TestCase):
             "tilesets",
             "$search-game-art",
             "$auto-ta",
-            "$build-unity-scene",
-            "This Skill does not mutate Unity",
+            "This Skill does not mutate any engine project",
             "Match user-facing explanations",
         ):
             self.assertIn(marker, text)
@@ -42,30 +41,6 @@ class Create2DGameArtContractTests(unittest.TestCase):
         )
         self.assertIn("Do not use this Skill for standalone 2D art", text)
         self.assertIn("$create-2d-game-art", text)
-
-    def test_unity_importer_consumes_the_2d_manifest_contract(self) -> None:
-        skill = (ROOT / "skills" / "build-unity-scene" / "SKILL.md").read_text(
-            encoding="utf-8"
-        )
-        reference = (
-            ROOT
-            / "skills"
-            / "build-unity-scene"
-            / "references"
-            / "2d-sprite-import.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("references/2d-sprite-import.md", skill)
-        for marker in (
-            "TextureImporterType.Sprite",
-            "SpriteImportMode.Multiple",
-            "Sprite Editor Data Provider API",
-            "unity_y = sheet_height - rect_px_top_left.y - rect_px_top_left.height",
-            "pivot_normalized_x",
-            "duration_ms",
-            "SpriteRenderer.sprite",
-            "delivery hash",
-        ):
-            self.assertIn(marker, reference)
 
     def test_receipt_and_handoff_share_closed_status_and_gate_enums(self) -> None:
         skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")

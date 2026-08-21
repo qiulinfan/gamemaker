@@ -27,16 +27,10 @@ class BundleContractTests(unittest.TestCase):
         self.assertEqual(
             {
                 "auto-ta",
-                "build-unity-scene",
                 "character-rig-animation-alignment",
-                "configure-unity-mcp",
                 "coordinate-game-production",
                 "create-2d-game-art",
-                "deliver-unity-feature",
                 "discuss-game-design",
-                "iterate-unity-level",
-                "play-unity-game",
-                "record-windows-playtest",
                 "search-game-art",
                 "write-game-design-brief",
             },
@@ -188,29 +182,6 @@ class BundleContractTests(unittest.TestCase):
                         msg=errors,
                     )
 
-    def test_unity_mcp_persistence_and_remote_probe_require_explicit_authority(self) -> None:
-        text = (ROOT / "skills/configure-unity-mcp/SKILL.md").read_text(
-            encoding="utf-8"
-        )
-        self.assertIn("Read-only diagnosis (default)", text)
-        self.assertIn("Bounded current-session setup", text)
-        self.assertIn("Persistent setup", text)
-        self.assertIn("Only for explicitly authorized persistent setup", text)
-        self.assertIn("Do not enable `Auto-Start Server on Editor Load`", text)
-        self.assertIn("--allow-remote-probe", text)
-        platform_text = (
-            ROOT / "skills/configure-unity-mcp/references/platforms.md"
-        ).read_text(encoding="utf-8")
-        self.assertNotIn("Copy the complete `configure-unity-mcp` folder", platform_text)
-        self.assertIn("complete `gamemaker` product repository", platform_text)
-        troubleshooting = (
-            ROOT / "skills/configure-unity-mcp/references/troubleshooting.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("bounded current-session setup by default", troubleshooting)
-        self.assertIn("Leave Auto-Start\ndisabled", troubleshooting)
-        self.assertIn("explicitly authorizes persistent background startup", troubleshooting)
-        self.assertNotIn("6. Enable auto-start", troubleshooting)
-
     def test_animation_alignment_requires_visible_semantic_oracles(self) -> None:
         skill = (
             ROOT / "skills/character-rig-animation-alignment/SKILL.md"
@@ -224,19 +195,6 @@ class BundleContractTests(unittest.TestCase):
             self.assertIn("semantic axis", text)
             self.assertIn("independent", text)
             self.assertIn("correction", text)
-
-    def test_playtest_records_and_reports_editor_cleanup_baseline(self) -> None:
-        skill = (ROOT / "skills/play-unity-game/SKILL.md").read_text(
-            encoding="utf-8"
-        )
-        for marker in (
-            "pre-session Editor baseline",
-            "dirty flag",
-            "Prefab Stage",
-            "PASS`, `FAIL`, or `BLOCKED",
-            "cleanup outcome",
-        ):
-            self.assertIn(marker, skill)
 
 
 if __name__ == "__main__":

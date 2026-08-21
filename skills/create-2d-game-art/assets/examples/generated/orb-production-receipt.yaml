@@ -81,5 +81,5 @@ modifications:
   - Reduced the visible palette deterministically with OKLab clustering.
 limitations:
   - Gameplay-camera readability and engine import remain untested.
-next_owner: gamemaker-programmer
+next_owner: gamemaker-technical-artist
 next_action: Import this exact delivery into an authorized project and issue new engine-bound evidence.

@@ -16,16 +16,6 @@ production checkout.
 - Treat any artifact created only in an isolated runner directory as
   `WRONG_WORKSPACE`.
 
-## Unity adaptation
-
-- Use the already-running Unity Editor only when its resolved project root
-  equals the canonical root.
-- Do not open an isolated work directory as a Unity project.
-- Do not start a second Editor or independent long-lived MCP bridge as a
-  fallback.
-- Re-resolve the instance after restart, domain reload, branch switch, or
-  reconnect.
-
 ## Historical evidence
 
 `case-studies/character-rig-animation-alignment.md` preserves the migrated

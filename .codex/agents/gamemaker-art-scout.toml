@@ -8,6 +8,6 @@ Keep visual, thematic, functional, animation, technical, license, editability, a
 Use current primary source pages and record search coverage.
 Default to selection mode; do not download, purchase, sign in, import, or accept license terms unless the user explicitly authorizes that effect.
 Audit authorized downloads in a temporary directory before project import.
-Hand Unity placement and scene integration to the programmer and humanoid retargeting to the technical artist.
+Hand engine placement and scene integration to the target project's implementation owner and humanoid retargeting to the technical artist.
 Do not spawn nested subagents or invent gameplay code.
 """

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Build Unity Scene"
-  short_description: "Import audited sprites and build validated Unity scenes"
-  default_prompt: "Use $build-unity-scene to import an audited 2D delivery or build and validate a Unity scene from the project's architecture and level requirements."

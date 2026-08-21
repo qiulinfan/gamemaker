@@ -1,4 +1,0 @@
-interface:
-  display_name: "Deliver Unity Feature"
-  short_description: "Build and verify a Unity module, feature, or system"
-  default_prompt: "Use $deliver-unity-feature to deliver this Unity feature as a verified end-to-end slice."

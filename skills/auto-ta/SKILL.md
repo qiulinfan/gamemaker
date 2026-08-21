@@ -73,13 +73,23 @@ If no visual surface is available, label visual quality `not_tested`; do not inf
 Read [references/quality-gates.md](references/quality-gates.md). Run only the gates relevant to the contract, but never skip geometry and export/import gates for a deliverable called game-ready.
 
 Resolve the bundled executables from the globally linked Skill, independent of
-the target game's current directory. On macOS, run the POSIX examples in `zsh`
-or `bash` inside iTerm2; iTerm2 is the terminal emulator, not the shell. Use the
-same POSIX syntax on Linux. Do this once before using any example:
+the target game's current directory. Probe the supported runtime Skill homes in
+order — the Codex home first, then the Claude Code home — and use the first one
+that actually contains the bundled scripts. On macOS, run the POSIX examples in
+`zsh` or `bash` inside iTerm2; iTerm2 is the terminal emulator, not the shell.
+Use the same POSIX syntax on Linux. Do this once before using any example:
 
 ```sh
-codex_home="${CODEX_HOME:-$HOME/.codex}"
-auto_ta_skill_dir="$(realpath "$codex_home/skills/auto-ta")"
+auto_ta_skill_dir=""
+for candidate in \
+    "${CODEX_HOME:-$HOME/.codex}/skills/auto-ta" \
+    "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/auto-ta"; do
+  if [ -f "$candidate/scripts/blender_asset_audit.py" ]; then
+    auto_ta_skill_dir="$(realpath "$candidate")"
+    break
+  fi
+done
+test -n "$auto_ta_skill_dir"
 audit_script="$auto_ta_skill_dir/scripts/blender_asset_audit.py"
 compare_script="$auto_ta_skill_dir/scripts/compare_asset_audits.py"
 receipt_validator="$auto_ta_skill_dir/scripts/validate_receipt.py"
@@ -94,13 +104,23 @@ $CodexHome = if ([string]::IsNullOrWhiteSpace($env:CODEX_HOME)) {
 } else {
   [System.IO.Path]::GetFullPath($env:CODEX_HOME)
 }
-$AutoTaSkillDir = (Resolve-Path -LiteralPath (Join-Path $CodexHome 'skills\auto-ta')).Path
+$ClaudeHome = if ([string]::IsNullOrWhiteSpace($env:CLAUDE_CONFIG_DIR)) {
+  Join-Path ([Environment]::GetFolderPath('UserProfile')) '.claude'
+} else {
+  [System.IO.Path]::GetFullPath($env:CLAUDE_CONFIG_DIR)
+}
+$AutoTaSkillDir = @(
+  (Join-Path $CodexHome 'skills\auto-ta'),
+  (Join-Path $ClaudeHome 'skills\auto-ta')
+) | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'scripts\blender_asset_audit.py') } |
+  Select-Object -First 1 | ForEach-Object { (Resolve-Path -LiteralPath $_).Path }
+if (-not $AutoTaSkillDir) { throw 'AUTO_TA_SKILL_NOT_LINKED' }
 $AuditScript = (Resolve-Path -LiteralPath (Join-Path $AutoTaSkillDir 'scripts\blender_asset_audit.py')).Path
 $CompareScript = (Resolve-Path -LiteralPath (Join-Path $AutoTaSkillDir 'scripts\compare_asset_audits.py')).Path
 $ReceiptValidator = (Resolve-Path -LiteralPath (Join-Path $AutoTaSkillDir 'scripts\validate_receipt.py')).Path
 ```
 
-Treat failure to resolve any of these absolute paths as
+Treat failure to resolve any of these absolute paths from both runtime homes as
 `AUTO_TA_SKILL_NOT_LINKED`; do not fall back to `scripts/...` relative to the
 game cwd. Set the remaining asset, output, and trusted-Blender variables to
 explicit absolute paths for the current job, using the lowercase variable names

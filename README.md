@@ -2,9 +2,11 @@
 
 Gamemaker is a portable Codex workflow bundle for taking a game idea or
 production issue through a small, evidence-backed agile iteration. It combines
-design, Unity implementation, sourced and original art, character/animation
-alignment, independent play verification, and producer acceptance without
-making one project, machine, orchestrator, or cloud provider the default.
+design, sourced and original art, character/animation alignment, and producer
+acceptance without making one project, machine, orchestrator, or cloud provider
+the default. Engine implementation and playtesting are executed with the target
+project's own tooling; the former Unity-specific Skills were removed in 0.3.0
+and remain available in Git history.
 
 The initial Skill sources were migrated from
 `qiulinfan/qiulinfan.github.io` revision
@@ -19,15 +21,13 @@ migrated into the portable Skill.
 
 ## What is included
 
-- `skills/`: thirteen portable Agent Skills covering production coordination,
-  design, Unity scenes/features/levels, Unity MCP, playtesting, game-art search,
-  deterministic 2D sprite production, 3D technical art, rig alignment, and
-  bounded Windows capture.
+- `skills/`: seven portable Agent Skills covering production coordination,
+  design, game-art search, deterministic 2D sprite production, 3D technical
+  art, and rig alignment.
 - `workflows/`: the end-to-end production map, agile iteration state machine,
   and handoff contract.
-- `.codex/agents/`: namespaced producer, designer, programmer, technical-art,
-  art-scout, playtester, and reviewer roles using Codex's standard custom-agent
-  TOML format.
+- `.codex/agents/`: namespaced producer, designer, technical-art, art-scout,
+  and reviewer roles using Codex's standard custom-agent TOML format.
 - `profiles/`: disabled-by-default Dreamweaver, Multica, and Google Drive
   adaptations and historical evidence.
 - `workflow.bundle.toml`: the machine-readable bundle inventory.
@@ -44,8 +44,8 @@ Use `$coordinate-game-production` for the umbrella workflow:
 3. make design, ownership, dependencies, and evidence ready;
 4. dispatch only ready specialist work;
 5. integrate exact handed-off artifacts;
-6. run focused checks, relevant regressions, and independent play when the
-   result is player-facing;
+6. run focused checks, relevant regressions, and independent play through the
+   target project's own playtest path when the result is player-facing;
 7. accept, route one bounded defect, or re-plan;
 8. record the next smallest ready slice.
 
@@ -64,7 +64,7 @@ missing. On macOS, use iTerm2 as the terminal emulator and run the POSIX
 lifecycle in `zsh` or `bash`;
 iTerm2 is not itself a shell, and PowerShell is not a macOS requirement. Linux
 uses the same POSIX lifecycle. Windows uses PowerShell 7+ (`pwsh`) for the
-Windows lifecycle and capture scripts. Windows PowerShell 5.1 is unsupported,
+Windows lifecycle scripts. Windows PowerShell 5.1 is unsupported,
 and the PowerShell entrypoints fail before mutation when invoked by an older
 host.
 
@@ -97,7 +97,7 @@ still refuse to replace non-links.
 
 Before the first `CODEX_HOME` write, the linker validates the manifest and its
 exact Skill, agent, workflow, and profile inventories. It then creates direct
-links for the thirteen Skills, seven namespaced agents, and the complete product
+links for the seven Skills, five namespaced agents, and the complete product
 root at `${CODEX_HOME}/workflow-products/gamemaker`. Producer workflows resolve
 `workflow.bundle.toml`, workflow files, and explicitly selected profiles only
 through that canonical product root, so they work from an unrelated game cwd.

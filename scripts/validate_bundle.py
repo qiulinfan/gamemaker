@@ -34,9 +34,7 @@ EXPECTED_LINK_SCRIPTS = {
 }
 UNITY_MUTATING_SKILLS = {
     "auto-ta",
-    "build-unity-scene",
     "character-rig-animation-alignment",
-    "play-unity-game",
 }
 UNITY_MUTATING_AGENTS = {"gamemaker-technical-artist"}
 UNITY_MUTATION_MARKERS = {

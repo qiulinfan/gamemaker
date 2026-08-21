@@ -1,6 +1,6 @@
 ---
 name: create-2d-game-art
-description: Create, adapt, pixelize, sequence, pack, and validate standalone 2D game art. Use for sprites, sprite animation frames, sprite sheets, tilesets, icons, UI art, portraits, backgrounds, or other raster game assets when Codex must turn a concept, generated image, licensed source, or existing frame set into an engine-ready 2D artifact with stable dimensions, palette, alpha, pivots, frame metadata, previews, hashes, and audit evidence. Use after search-game-art when sourced 2D art needs production adaptation. Do not use for finding third-party assets, 3D technical art, or Unity scene integration.
+description: Create, adapt, pixelize, sequence, pack, and validate standalone 2D game art. Use for sprites, sprite animation frames, sprite sheets, tilesets, icons, UI art, portraits, backgrounds, or other raster game assets when Codex must turn a concept, generated image, licensed source, or existing frame set into an engine-ready 2D artifact with stable dimensions, palette, alpha, pivots, frame metadata, previews, hashes, and audit evidence. Use after search-game-art when sourced 2D art needs production adaptation. Do not use for finding third-party assets, 3D technical art, or engine scene integration.
 ---
 
 # Create 2D Game Art
@@ -15,7 +15,7 @@ Match user-facing explanations, prompts, and handoffs to the user's language unl
 - Use ImageGen or an authorized drawing surface for source imagery and visual exploration. Treat its output as source imagery until the artifact and visual gates pass.
 - Use this Skill for standalone 2D production, including pixel-art conversion and sprite-sheet construction.
 - Use `$auto-ta` when the deliverable is a 3D model, material, rig, skeletal animation, shader, VFX system, or a 2D image that exists only to support a 3D asset.
-- Hand an audited 2D artifact to `$build-unity-scene` for project-aware import, SpriteImporter settings, slicing, AnimationClips, prefabs, scenes, and runtime validation. This Skill does not mutate Unity.
+- End at the audited engine-neutral deliverable (sheet, manifest, preview, audit, receipt). Project-aware import, slicing, animation wiring, prefabs, and scene integration belong to the target project's own engine workflow. This Skill does not mutate any engine project.
 
 ## Establish the Asset Contract
 
@@ -58,11 +58,19 @@ Expand only after the representative slice passes. A contact sheet is a review a
 
 The bundled pipeline replaces the old notebook-driven ImageToPixel workflow. It performs no web calls and writes only beneath an explicit existing output root. `uv run` resolves the script's declared Pillow and NumPy dependencies in an isolated managed environment and uses the adjacent lock file for reproducible versions and package hashes.
 
-Resolve the linked Skill independently of the target game's current directory. On macOS or Linux:
+Resolve the linked Skill independently of the target game's current directory. Probe the supported runtime Skill homes in order — the Codex home first, then the Claude Code home — and use the first one that actually contains the bundled pipeline. On macOS or Linux:
 
 ```sh
-codex_home="${CODEX_HOME:-$HOME/.codex}"
-skill_dir="$(realpath "$codex_home/skills/create-2d-game-art")"
+skill_dir=""
+for candidate in \
+    "${CODEX_HOME:-$HOME/.codex}/skills/create-2d-game-art" \
+    "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/create-2d-game-art"; do
+  if [ -f "$candidate/scripts/sprite_pipeline.py" ]; then
+    skill_dir="$(realpath "$candidate")"
+    break
+  fi
+done
+test -n "$skill_dir"
 pipeline="$skill_dir/scripts/sprite_pipeline.py"
 test -f "$pipeline"
 ```
@@ -75,11 +83,21 @@ $CodexHome = if ([string]::IsNullOrWhiteSpace($env:CODEX_HOME)) {
 } else {
   [System.IO.Path]::GetFullPath($env:CODEX_HOME)
 }
-$SkillDir = (Resolve-Path -LiteralPath (Join-Path $CodexHome 'skills\create-2d-game-art')).Path
+$ClaudeHome = if ([string]::IsNullOrWhiteSpace($env:CLAUDE_CONFIG_DIR)) {
+  Join-Path ([Environment]::GetFolderPath('UserProfile')) '.claude'
+} else {
+  [System.IO.Path]::GetFullPath($env:CLAUDE_CONFIG_DIR)
+}
+$SkillDir = @(
+  (Join-Path $CodexHome 'skills\create-2d-game-art'),
+  (Join-Path $ClaudeHome 'skills\create-2d-game-art')
+) | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'scripts\sprite_pipeline.py') } |
+  Select-Object -First 1 | ForEach-Object { (Resolve-Path -LiteralPath $_).Path }
+if (-not $SkillDir) { throw 'CREATE_2D_GAME_ART_NOT_LINKED' }
 $Pipeline = (Resolve-Path -LiteralPath (Join-Path $SkillDir 'scripts\sprite_pipeline.py')).Path
 ```
 
-Treat failure to resolve the script as `CREATE_2D_GAME_ART_NOT_LINKED`; do not fall back to a `scripts/...` path relative to the game repository.
+Treat failure to resolve the script from both runtime homes as `CREATE_2D_GAME_ART_NOT_LINKED`; do not fall back to a `scripts/...` path relative to the game repository.
 
 ### Build a sheet from a frame directory
 

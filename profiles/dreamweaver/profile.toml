@@ -7,14 +7,9 @@ enabled_by_default = false
 description = "Opt-in project adaptation and historical evidence for Dreamweaver."
 
 [workspace]
-canonical_root = "C:\\Users\\rynne\\Desktop\\dreamweaver"
+canonical_root = "/Users/qiulinfan/dreamweaver"
 preserve_remote_transport = true
 expected_remote_transport = "ssh"
-
-[unity]
-require_existing_editor = true
-require_exact_project_root = true
-allow_launch_fallback = false
 
 [source_control]
 commit = "inherit-explicit-user-authority"

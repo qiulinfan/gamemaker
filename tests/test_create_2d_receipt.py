@@ -198,7 +198,7 @@ class Create2DReceiptValidatorTests(unittest.TestCase):
             ],
             "modifications": ["Normalized frames"],
             "limitations": [],
-            "next_owner": "gamemaker-programmer",
+            "next_owner": "gamemaker-technical-artist",
             "next_action": "Integrate delivery",
         }
 

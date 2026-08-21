@@ -2,8 +2,8 @@ schema_version = 1
 
 [bundle]
 name = "gamemaker"
-version = "0.2.0"
-description = "Portable evidence-driven game-production workflow bundle for Codex with 2D and 3D art production"
+version = "0.3.0"
+description = "Portable evidence-driven game-production workflow bundle for Codex focused on coordination, design, and 2D/3D art production"
 skills_root = "skills"
 workflows_root = "workflows"
 profiles_root = "profiles"
@@ -48,36 +48,6 @@ phases = ["ready", "design"]
 name = "discuss-game-design"
 path = "skills/discuss-game-design"
 phases = ["discovery", "design"]
-
-[[skills]]
-name = "deliver-unity-feature"
-path = "skills/deliver-unity-feature"
-phases = ["implementation", "verification"]
-
-[[skills]]
-name = "iterate-unity-level"
-path = "skills/iterate-unity-level"
-phases = ["implementation", "play", "iteration"]
-
-[[skills]]
-name = "build-unity-scene"
-path = "skills/build-unity-scene"
-phases = ["implementation", "integration"]
-
-[[skills]]
-name = "configure-unity-mcp"
-path = "skills/configure-unity-mcp"
-phases = ["environment", "diagnostics"]
-
-[[skills]]
-name = "play-unity-game"
-path = "skills/play-unity-game"
-phases = ["independent-verification"]
-
-[[skills]]
-name = "record-windows-playtest"
-path = "skills/record-windows-playtest"
-phases = ["evidence"]
 
 [[skills]]
 name = "search-game-art"
@@ -125,11 +95,6 @@ path = ".codex/agents/gamemaker-designer.toml"
 primary_skills = ["write-game-design-brief", "discuss-game-design"]
 
 [[agents]]
-name = "gamemaker_programmer"
-path = ".codex/agents/gamemaker-programmer.toml"
-primary_skills = ["deliver-unity-feature", "iterate-unity-level", "build-unity-scene", "configure-unity-mcp"]
-
-[[agents]]
 name = "gamemaker_technical_artist"
 path = ".codex/agents/gamemaker-technical-artist.toml"
 primary_skills = ["create-2d-game-art", "auto-ta", "character-rig-animation-alignment"]
@@ -140,14 +105,9 @@ path = ".codex/agents/gamemaker-art-scout.toml"
 primary_skills = ["search-game-art"]
 
 [[agents]]
-name = "gamemaker_playtester"
-path = ".codex/agents/gamemaker-playtester.toml"
-primary_skills = ["play-unity-game", "record-windows-playtest"]
-
-[[agents]]
 name = "gamemaker_reviewer"
 path = ".codex/agents/gamemaker-reviewer.toml"
-primary_skills = ["coordinate-game-production", "play-unity-game"]
+primary_skills = ["coordinate-game-production"]
 
 [[profiles]]
 id = "dreamweaver"

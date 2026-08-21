@@ -49,7 +49,7 @@ Apply the gates relevant to the asset contract. Evidence from one lane cannot su
 
 ## Engine Gates
 
-- The exact intended Unity project and imported artifact identity are verified by `$build-unity-scene` before mutation.
+- The exact intended engine project and imported artifact identity are verified by the target project's own engine workflow before mutation.
 - Texture type, sprite mode, filter mode, compression, mipmaps, wrap mode, sRGB, pixels per unit, mesh type, and max size match the contract.
 - Slice rectangles, names, pivots, borders, and physics shapes match the manifest or documented engine overrides.
 - AnimationClips use the intended frame order, duration, loop behavior, events, and transitions.

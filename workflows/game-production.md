@@ -26,14 +26,19 @@ effects, or turn an untested gate into a pass.
 | Design | Designer | Brief, state model, art/programming contract | Definition of ready |
 | Art discovery | Art scout | Requirement matrix, provenance, audited candidate | License and technical fit |
 | Art production | Technical artist | Reversible 2D or 3D asset plus receipt | Relevant artifact, technical, visual, and round-trip gates |
-| Implementation | Programmer | Runnable code/scene/prefab slice plus tests | Compile and focused checks |
-| Independent play | Playtester | Read-only result and reproduction evidence | Real/player-like path or disclosed fallback |
+| Implementation | Target project's engine workflow | Runnable code/scene/prefab slice plus tests | Compile and focused checks |
+| Independent play | Independent verifier via the target project's playtest path | Read-only result and reproduction evidence | Real/player-like path or disclosed fallback |
 | Integration review | Producer/reviewer | Evidence mapped to acceptance | Definition of done |
 | Accept or iterate | Producer | Accepted slice or one bounded defect | Clean re-verification or explicit blocker |
 
 Skip stages that do not apply. Do not skip a gate merely because its specialist
 stage was skipped; for example, a feature with no new art still needs provenance
 confirmation for reused assets.
+
+This bundle ships coordination, design, and art Skills. The implementation and
+independent-play stages are executed with the target project's own engine
+tooling; their gates still apply, and a missing independent verifier is a
+disclosed capability gap, never an implicit pass.
 
 ## Route decisions
 
@@ -64,7 +69,7 @@ Keep five lanes separate until final review:
    round trip, and engine import;
 4. visual/player evidence: inspected captures and independent play through the
    real or closest player-like path;
-5. operational evidence: canonical workspace, exact Unity instance/revision,
+5. operational evidence: canonical workspace, exact engine instance/revision,
    performed external effects, and delivery locations.
 
 One lane cannot substitute for another. A screenshot is not a license or test
@@ -80,8 +85,8 @@ result, exact artifact/revision, reproduction, and required clean rerun.
 - art scout: source, license, archive, or acquisition mismatch;
 - technical artist: geometry, material, rig, animation, export/import, or visual
   defect;
-- programmer: code, scene, prefab, input, Console, test, runtime, or reset
-  defect;
+- implementation owner (target project's engine workflow): code, scene, prefab,
+  input, diagnostics, test, runtime, or reset defect;
 - producer: ownership conflict, stale handoff, integration mismatch, or
   unauthorized external effect.
 

@@ -1,6 +1,6 @@
 ---
 name: coordinate-game-production
-description: Coordinate an end-to-end game-production iteration across design, programming, 2D and 3D art production, sourced art, and independent play verification. Use when a producer agent must turn an idea or issue into a bounded vertical slice, classify it as design discovery, level, feature, system, art, or mixed work, delegate through Codex agents, enforce dependency and write ownership, review evidence, route defects, and close or continue an agile iteration without relying on a project-specific orchestrator.
+description: Coordinate an end-to-end game-production iteration across design, 2D and 3D art production, sourced art, and character alignment. Use when a producer agent must turn an idea or issue into a bounded vertical slice, classify it as design discovery, design decision, art, or mixed work, delegate through Codex agents, enforce dependency and write ownership, review evidence, route defects, and close or continue an agile iteration without relying on a project-specific orchestrator. Engine implementation and playtesting are executed with the target project's own tooling, not by this bundle.
 ---
 
 # Coordinate Game Production
@@ -56,18 +56,17 @@ Choose one primary route:
 | --- | --- | --- |
 | Design discovery | Rules or behavior are not implementable yet | `write-game-design-brief` |
 | Design decision | A concrete option or tension needs resolution | `discuss-game-design` |
-| Level | Spatial layout, encounter flow, pacing, puzzle, or scenario changes | `iterate-unity-level` |
-| Feature | A player-facing capability or interaction is added | `deliver-unity-feature` |
-| System/module | Reusable state, data, services, tools, or infrastructure are added | `deliver-unity-feature` |
 | Standalone 2D art | Sprites, sprite sheets, frame animation, tilesets, icons, UI, portraits, or backgrounds are created or adapted | `create-2d-game-art` |
 | 3D technical art | Geometry, 3D materials, rigging, skeletal animation, lookdev, shaders, or VFX are produced | `auto-ta` |
 | Sourced art | Existing art must be selected, licensed, audited, or imported | `search-game-art` |
 | Character alignment | A humanoid and external animation source must work together | `character-rig-animation-alignment` |
+| Engine implementation | Code, scenes, levels, or engine features must change | Out of bundle scope — delegate to the target project's own engine workflow and record the dependency |
 | Mixed | Several routes share one acceptance path | Order them by dependency and ship one vertical slice |
 
-Do not disguise a module as a level merely because it needs a Unity test scene.
 Split a large request at an observable player or tool outcome, not at arbitrary
-file or discipline boundaries.
+file or discipline boundaries. When a slice needs engine implementation, keep
+this bundle responsible for design and art evidence, disclose the capability
+gap, and integrate the engine work as an external dependency.
 
 ## Make the slice ready
 
@@ -107,10 +106,8 @@ available:
 
 - `gamemaker_producer` for routing and acceptance;
 - `gamemaker_designer` for briefs and design decisions;
-- `gamemaker_programmer` for Unity implementation and technical validation;
 - `gamemaker_technical_artist` for original/adapted art and rig integration;
 - `gamemaker_art_scout` for sourced-art evidence;
-- `gamemaker_playtester` for read-only independent play verification;
 - `gamemaker_reviewer` for cross-discipline acceptance review.
 
 Select only the roles required by the current slice. Retain one coordinator.
@@ -159,39 +156,28 @@ Use native agent completion events or bounded waits. Do not create a polling
 loop, daemon, gateway, scheduled task, or recurring automation unless the user
 explicitly requests that persistent behavior.
 
-## Enforce Unity identity and health
-
-For Unity work, require the Editor/MCP instance whose reported project root
-exactly matches the canonical workspace. Enumerate instances and match by
-resolved root, not display name alone.
-
-Continue only when one healthy intended instance is available. Otherwise stop
-with `UNITY_EDITOR_NOT_RUNNING`, `UNITY_MCP_UNAVAILABLE`,
-`UNITY_INSTANCE_AMBIGUOUS`, or `UNITY_PROJECT_MISMATCH` and report observed
-instance identifiers and roots. Do not silently open a copied workspace,
-another Editor, or a new long-lived bridge as a fallback. Re-check identity
-after restart, domain reload, branch switch, or reconnect.
-
 ## Integrate, verify, and route defects
 
 Review the actual artifacts and repository state. Route defects to the owner:
 
 - scope, rules, states, or acceptance ambiguity to design;
 - provenance, license, acquisition, rig, material, or import defects to art;
-- code, scene, prefab, Console, test, performance, or runtime defects to
-  programming;
+- code, scene, test, performance, or runtime defects to the target project's
+  implementation owner;
 - unclear cross-discipline acceptance or stale evidence to the producer.
 
 After a fix, clear stale diagnostics and rerun the affected path from a clean
-state. Player-facing work requires `play-unity-game` as an independent
-consumer of the contract. Stateful work also requires reset/reload followed by
-a fresh second completion. Recording with `record-windows-playtest` is an
-optional evidence artifact, never a default substitute for observed behavior.
+state. Player-facing work still requires independent play verification as a
+consumer of the contract, executed through the target project's own playtest
+path; when no independent verifier is available, disclose the capability gap
+instead of self-accepting. Stateful work also requires reset/reload followed by
+a fresh second completion. A recording is an optional evidence artifact, never
+a default substitute for observed behavior.
 
 Accept only when the integrated revision, focused and relevant regression
-checks, Console state, licenses, visual/technical evidence, independent play
-evidence, and reset evidence satisfy the contract. Otherwise return one bounded
-defect or re-plan the slice. Never convert `not_tested` into a pass.
+checks, clean diagnostics, licenses, visual/technical evidence, independent
+play evidence, and reset evidence satisfy the contract. Otherwise return one
+bounded defect or re-plan the slice. Never convert `not_tested` into a pass.
 
 ## Report the iteration
 
