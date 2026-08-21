@@ -8,10 +8,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) {
-    throw 'Gamemaker doctor.ps1 requires PowerShell 7 or newer (pwsh).'
+    throw 'AutoTA doctor.ps1 requires PowerShell 7 or newer (pwsh).'
 }
 if (-not $IsWindows) {
-    throw 'Gamemaker doctor.ps1 is the Windows lifecycle entrypoint; use ./scripts/doctor.sh on macOS or Linux.'
+    throw 'AutoTA doctor.ps1 is the Windows lifecycle entrypoint; use ./scripts/doctor.sh on macOS or Linux.'
 }
 . (Join-Path $PSScriptRoot 'LinkContract.ps1')
 
@@ -27,10 +27,10 @@ if ([string]::IsNullOrWhiteSpace($CodexHome)) {
 if ([string]::IsNullOrWhiteSpace($CodexHome)) {
     $CodexHome = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex'
 }
-$resolvedCodexHome = Resolve-GamemakerPath -Path $CodexHome
+$resolvedCodexHome = Resolve-AutoTAPath -Path $CodexHome
 
 try {
-    $inventory = Get-GamemakerInventory -RepositoryRoot $repositoryRoot -CodexHome $resolvedCodexHome
+    $inventory = Get-AutoTAInventory -RepositoryRoot $repositoryRoot -CodexHome $resolvedCodexHome
 }
 catch {
     $failures.Add($_.Exception.Message)
@@ -52,7 +52,7 @@ Get-ChildItem -Recurse -File -Filter '*.ps1' -LiteralPath $repositoryRoot | ForE
 
 if (-not $SkipLinkCheck -and $null -ne $inventory) {
     try {
-        $receipt = Read-GamemakerReceipt `
+        $receipt = Read-AutoTAReceipt `
             -RepositoryRoot $repositoryRoot `
             -CodexHome $resolvedCodexHome `
             -ReceiptPath ([string]$inventory.receipt_path)
@@ -94,7 +94,7 @@ if (-not $SkipLinkCheck -and $null -ne $inventory) {
                 $failures.Add("Receipt contract mismatch: $($desired.inventory_id)")
                 continue
             }
-            $state = Get-GamemakerLinkState `
+            $state = Get-AutoTALinkState `
                 -ExpectedSource ([string]$entry.source) `
                 -Destination ([string]$entry.destination) `
                 -ExpectedLinkType ([string]$entry.link_type)
@@ -123,5 +123,5 @@ if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ -ErrorAction Continue }
     exit 1
 }
-Write-Host 'GAMEMAKER_BUNDLE_OK'
-Write-Host 'GAMEMAKER_DOCTOR_OK'
+Write-Host 'AUTOTA_BUNDLE_OK'
+Write-Host 'AUTOTA_DOCTOR_OK'

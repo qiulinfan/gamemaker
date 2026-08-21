@@ -1,5 +1,5 @@
 #Requires -Version 7.0
-# Skills-only Claude Code linker for the gamemaker product checkout.
+# Skills-only Claude Code linker for the autota product checkout.
 #
 # Links each skills\<name> of this checkout into the Claude Code user Skill
 # directory as an individually owned junction, so local edits are visible
@@ -42,7 +42,7 @@ Get-ChildItem -Force -LiteralPath $claudeSkills | ForEach-Object {
     if ((Test-Path -LiteralPath (Join-Path $target 'SKILL.md') -PathType Leaf) -and
         ([System.IO.Path]::GetFileName($target) -eq $_.Name)) { return }
     Remove-Item -LiteralPath $_.FullName
-    Write-Host "REMOVED stale gamemaker Skill link: $($_.FullName)"
+    Write-Host "REMOVED stale autota Skill link: $($_.FullName)"
 }
 
 $linked = 0
@@ -64,4 +64,4 @@ foreach ($skillDirectory in (Get-ChildItem -LiteralPath $repositorySkills -Direc
     $linked++
 }
 
-Write-Host "CLAUDE_SKILLS_OK ($linked gamemaker Skills; skills-only, agents and workflows stay Codex-only)"
+Write-Host "CLAUDE_SKILLS_OK ($linked autota Skills; skills-only, agents and workflows stay Codex-only)"

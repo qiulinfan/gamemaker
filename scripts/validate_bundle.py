@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the portable Gamemaker bundle without third-party packages."""
+"""Validate the portable AutoTA bundle without third-party packages."""
 
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ UNITY_MUTATING_SKILLS = {
     "auto-ta",
     "character-rig-animation-alignment",
 }
-UNITY_MUTATING_AGENTS = {"gamemaker-technical-artist"}
+UNITY_MUTATING_AGENTS = {"autota-technical-artist"}
 UNITY_MUTATION_MARKERS = {
     "Console clear",
     "Play",
@@ -168,8 +168,8 @@ def _validate_agents(
             continue
         name = entry.get("name")
         path_value = entry.get("path")
-        if not isinstance(name, str) or not name.startswith("gamemaker_"):
-            errors.append(f"{label}: name must use gamemaker_ namespace")
+        if not isinstance(name, str) or not name.startswith("autota_"):
+            errors.append(f"{label}: name must use autota_ namespace")
             continue
         if name in manifest_names:
             errors.append(f"{label}: duplicate agent name {name}")
@@ -343,8 +343,8 @@ def validate(root: Path) -> list[str]:
         errors.append("workflow.bundle.toml: schema_version must be 1")
 
     bundle = manifest.get("bundle", {})
-    if bundle.get("name") != "gamemaker":
-        errors.append("workflow.bundle.toml: bundle.name must be gamemaker")
+    if bundle.get("name") != "autota":
+        errors.append("workflow.bundle.toml: bundle.name must be autota")
     expected_roots = {
         "skills_root": "skills",
         "workflows_root": "workflows",
@@ -359,8 +359,8 @@ def validate(root: Path) -> list[str]:
     expected_links = {
         "skills_destination": "skills",
         "agents_destination": "agents",
-        "product_destination": "workflow-products/gamemaker",
-        "receipt_destination": "state/gamemaker/install-receipt.json",
+        "product_destination": "workflow-products/autota",
+        "receipt_destination": "state/autota/install-receipt.json",
         "mode": "direct-working-tree-link",
     }
     for key, expected in expected_links.items():
@@ -490,9 +490,9 @@ def main() -> int:
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
-        print(f"GAMEMAKER_BUNDLE_INVALID errors={len(errors)}", file=sys.stderr)
+        print(f"AUTOTA_BUNDLE_INVALID errors={len(errors)}", file=sys.stderr)
         return 1
-    print("GAMEMAKER_BUNDLE_OK")
+    print("AUTOTA_BUNDLE_OK")
     return 0
 
 

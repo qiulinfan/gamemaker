@@ -7,14 +7,14 @@ sources:
   - path: source/orb-idle-0.ppm
     role: user_authored
     sha256: df73ed5b6d139dfc9335cbb73f4b06f8852e7d23c630c0b496910eaa1dd09099
-    creator: Gamemaker example author
+    creator: AutoTA example author
     source_url: ""
     license: user-owned example source
     generation_provenance: ""
   - path: source/orb-idle-1.ppm
     role: user_authored
     sha256: eed7ef0248cb608e917fee6de2d9bd79eafcad377f4b0f15dcfbf178f1f833cd
-    creator: Gamemaker example author
+    creator: AutoTA example author
     source_url: ""
     license: user-owned example source
     generation_provenance: ""
@@ -81,5 +81,5 @@ modifications:
   - Reduced the visible palette deterministically with OKLab clustering.
 limitations:
   - Gameplay-camera readability and engine import remain untested.
-next_owner: gamemaker-technical-artist
+next_owner: autota-technical-artist
 next_action: Import this exact delivery into an authorized project and issue new engine-bound evidence.

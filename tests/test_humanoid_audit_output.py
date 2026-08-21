@@ -12,7 +12,7 @@ SCRIPT = ROOT / (
     "skills/character-rig-animation-alignment/scripts/"
     "audit_unity_humanoid_meta.py"
 )
-SPEC = importlib.util.spec_from_file_location("gamemaker_humanoid_audit", SCRIPT)
+SPEC = importlib.util.spec_from_file_location("autota_humanoid_audit", SCRIPT)
 assert SPEC is not None and SPEC.loader is not None
 AUDIT = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = AUDIT

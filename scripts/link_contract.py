@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and persist the validated Gamemaker Codex link contract."""
+"""Build and persist the validated AutoTA Codex link contract."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ import tomllib
 from typing import Any
 
 
-PRODUCT = "gamemaker"
+PRODUCT = "autota"
 RECEIPT_SCHEMA_VERSION = 1
 SAFE_NAME_RE = re.compile(r"^[a-z0-9]+(?:[-_][a-z0-9]+)*$")
 
@@ -32,7 +32,7 @@ def _absolute_lexical(path: Path) -> Path:
 
 def _load_validator(root: Path):
     path = root / "scripts" / "validate_bundle.py"
-    spec = importlib.util.spec_from_file_location("gamemaker_validate_bundle", path)
+    spec = importlib.util.spec_from_file_location("autota_validate_bundle", path)
     if spec is None or spec.loader is None:
         raise ContractError(f"Cannot load bundle validator: {path}")
     module = importlib.util.module_from_spec(spec)
@@ -68,12 +68,12 @@ def preflight_receipt_path(path: Path, codex_home: Path) -> None:
     """Fail before link mutation if receipt storage is not a real local path."""
 
     canonical_home = _absolute_lexical(codex_home)
-    expected = canonical_home / "state" / "gamemaker" / "install-receipt.json"
+    expected = canonical_home / "state" / "autota" / "install-receipt.json"
     candidate = _absolute_lexical(path)
     if not _same_path(candidate, expected):
         raise ContractError(f"Unexpected install receipt path: {path}")
 
-    for parent in (canonical_home / "state", canonical_home / "state" / "gamemaker"):
+    for parent in (canonical_home / "state", canonical_home / "state" / "autota"):
         if not os.path.lexists(parent):
             continue
         if _is_reparse_point(parent):
@@ -138,7 +138,7 @@ def build_inventory(root: Path, codex_home: Path) -> dict[str, Any]:
     codex_home = _absolute_lexical(codex_home)
     if root == codex_home or root in codex_home.parents or codex_home in root.parents:
         raise ContractError(
-            "CODEX_HOME and the Gamemaker repository must not overlap; "
+            "CODEX_HOME and the AutoTA repository must not overlap; "
             "the product-root link would be recursive or ambiguously owned"
         )
     errors = _load_validator(root).validate(root)
@@ -180,7 +180,7 @@ def build_inventory(root: Path, codex_home: Path) -> dict[str, Any]:
     product_destination = _path_under(
         codex_home, link["product_destination"], "link.product_destination"
     )
-    append(root, product_destination, "directory", "product-root:gamemaker")
+    append(root, product_destination, "directory", "product-root:autota")
 
     destinations = [entry["destination"] for entry in entries]
     if len(destinations) != len(set(destinations)):
@@ -233,9 +233,9 @@ def _validate_receipt_entry(
     inventory_id = entry["inventory_id"]
     kind = entry["kind"]
     link_type = entry["link_type"]
-    if inventory_id == "product-root:gamemaker":
+    if inventory_id == "product-root:autota":
         expected_source = repository_root
-        expected_destination = codex_home / "workflow-products" / "gamemaker"
+        expected_destination = codex_home / "workflow-products" / "autota"
         valid = (
             kind == "directory"
             and link_type in {"Junction", "SymbolicLink", "symlink"}
@@ -259,7 +259,7 @@ def _validate_receipt_entry(
         expected_source = repository_root / ".codex" / "agents" / filename
         expected_destination = codex_home / "agents" / filename
         valid = (
-            name.startswith("gamemaker_")
+            name.startswith("autota_")
             and bool(SAFE_NAME_RE.fullmatch(name))
             and kind == "file"
             and link_type in {"HardLink", "SymbolicLink", "symlink"}
@@ -270,7 +270,7 @@ def _validate_receipt_entry(
         valid = False
     if not valid:
         raise ContractError(
-            "Receipt entry is outside the Gamemaker product namespace: "
+            "Receipt entry is outside the AutoTA product namespace: "
             f"{inventory_id} -> {destination}"
         )
     normalized = dict(entry)
@@ -284,7 +284,7 @@ def read_receipt(
 ) -> dict[str, Any] | None:
     canonical_home = _absolute_lexical(codex_home)
     canonical_root = repository_root.expanduser().resolve(strict=True)
-    expected_path = canonical_home / "state" / "gamemaker" / "install-receipt.json"
+    expected_path = canonical_home / "state" / "autota" / "install-receipt.json"
     path = _absolute_lexical(path)
     if not _same_path(path, expected_path):
         raise ContractError(f"Unexpected install receipt path: {path}")

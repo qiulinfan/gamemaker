@@ -1,56 +1,52 @@
-# Gamemaker
+# AutoTA
 
-Gamemaker is a portable Codex workflow bundle for taking a game idea or
-production issue through a small, evidence-backed agile iteration. It combines
-design, sourced and original art, character/animation alignment, and producer
-acceptance without making one project, machine, orchestrator, or cloud provider
-the default. Engine implementation and playtesting are executed with the target
-project's own tooling; the former Unity-specific Skills were removed in 0.3.0
-and remain available in Git history.
+AutoTA is a portable, evidence-driven technical-art pipeline. It turns an art
+requirement (a design brief's visual/audio needs) into license-verified or
+generated assets with receipts, and hands engine integration to the target
+project's own workflow. It is the **midstream** of a game production line:
+upstream design docs state what is needed; AutoTA sources, generates, adapts,
+and audits it; the target project (e.g. a CCGS/Codex game-studio setup)
+integrates and verifies it in-engine.
+
+Five portable Agent Skills:
+
+- `search-game-art` — requirement matrix, source-covered search, per-item
+  license verification, audited acquisition; programmatic CC0 acquisition for
+  uniformly licensed sources (Poly Haven API).
+- `create-2d-game-art` — deterministic 2D raster production (pixelize,
+  sequence, pack, audit) with closed-schema receipts.
+- `auto-ta` — Blender-side 3D technical art: authoring, adaptation, the
+  isolated audit chain, round-trip validation, downstream optimization.
+- `generate-hosted-game-art` — hosted generation via user-supplied Meshy /
+  Tencent Cloud credentials: free capability probe, budget-authorized
+  batches, generation receipts.
+- `character-rig-animation-alignment` — humanoid × external animation
+  alignment and engine-ready retargeting acceptance.
+
+Plus `workflows/handoff-contract.md` (the receipt/gate schema every delivery
+shares), two namespaced Codex agents (`autota_technical_artist`,
+`autota_art_scout`), and one disabled-by-default project profile.
 
 The initial Skill sources were migrated from
 `qiulinfan/qiulinfan.github.io` revision
-`0e4cce8a474197170942e9b10984706bb9b95a05`. Generated Python cache files were
-not migrated. Project-specific facts were separated into opt-in profiles.
+`0e4cce8a474197170942e9b10984706bb9b95a05`. The deterministic raster core of
+`create-2d-game-art` was redesigned from the generalizable parts of
+`qiulinfan/ImageToPixel` revision
+`152bab66d3def65e6eaa5cd6ba97c00ac754ee31`. The repository was slimmed from
+the earlier "gamemaker" full-production bundle in 2026-08: orchestration,
+design, and engine-execution Skills were removed (git history keeps them);
+only the mature TA pipeline remains.
 
-The deterministic raster core of `create-2d-game-art` was redesigned from the
-generalizable parts of `qiulinfan/ImageToPixel` revision
-`152bab66d3def65e6eaa5cd6ba97c00ac754ee31`. Notebook-driven glue, generated
-outputs, caches, and character-specific source art were intentionally not
-migrated into the portable Skill.
+## Position in a production line
 
-## What is included
-
-- `skills/`: eight portable Agent Skills covering production coordination,
-  design, game-art search, hosted AI generation (Meshy / Tencent Cloud),
-  deterministic 2D sprite production, 3D technical art, and rig alignment.
-- `workflows/`: the end-to-end production map, agile iteration state machine,
-  and handoff contract.
-- `.codex/agents/`: namespaced producer, designer, technical-art, art-scout,
-  and reviewer roles using Codex's standard custom-agent TOML format.
-- `profiles/`: disabled-by-default Dreamweaver, Multica, and Google Drive
-  adaptations and historical evidence.
-- `workflow.bundle.toml`: the machine-readable bundle inventory.
-- `scripts/`: POSIX lifecycle commands for macOS/Linux and PowerShell lifecycle
-  commands for Windows.
-- `tests/`: manifest, portability, agent, installer, and syntax checks.
-
-## Production loop
-
-Use `$coordinate-game-production` for the umbrella workflow:
-
-1. establish the parent outcome and canonical workspace;
-2. classify the next smallest vertical slice;
-3. make design, ownership, dependencies, and evidence ready;
-4. dispatch only ready specialist work;
-5. integrate exact handed-off artifacts;
-6. run focused checks, relevant regressions, and independent play through the
-   target project's own playtest path when the result is player-facing;
-7. accept, route one bounded defect, or re-plan;
-8. record the next smallest ready slice.
-
-See `workflows/game-production.md` and `workflows/agile-iteration.md` for the
-full contracts.
+1. **Upstream (design)**: the game project's design docs state visual/audio
+   requirements — that text is the design brief AutoTA consumes.
+2. **Midstream (AutoTA)**: source or generate the asset, adapt it in Blender,
+   audit it, and emit a receipt. Deliveries stay `prototype` until the named
+   gates pass; a receipt never converts `not_tested` into a pass.
+3. **Downstream (engine)**: the target project imports the delivery, wires it
+   into scenes, and verifies in-engine with its own tools. AutoTA never
+   mutates the game project's scenes on its own authority.
 
 ## Link the working tree into Codex
 
@@ -97,15 +93,15 @@ still refuse to replace non-links.
 
 Before the first `CODEX_HOME` write, the linker validates the manifest and its
 exact Skill, agent, workflow, and profile inventories. It then creates direct
-links for the eight Skills, five namespaced agents, and the complete product
-root at `${CODEX_HOME}/workflow-products/gamemaker`. Producer workflows resolve
-`workflow.bundle.toml`, workflow files, and explicitly selected profiles only
-through that canonical product root, so they work from an unrelated game cwd.
+links for the five Skills, two namespaced agents, and the complete product
+root at `${CODEX_HOME}/workflow-products/autota`. Skills resolve bundled
+scripts and the handoff contract only through linked locations, so they work
+from an unrelated game cwd.
 
 The linker atomically records every managed destination, canonical source, kind,
 and observed link type at
-`${CODEX_HOME}/state/gamemaker/install-receipt.json`. The receipt is bound to
-this exact checkout and the Gamemaker namespaces. Re-linking removes a
+`${CODEX_HOME}/state/autota/install-receipt.json`. The receipt is bound to
+this exact checkout and the AutoTA namespaces. Re-linking removes a
 receipt-owned stale symlink/junction after a manifest rename or deletion;
 unlinking uses the receipt rather than only the current disk inventory.
 Corrupt, wrong-checkout, wrong-owner, or real destinations are preserved and
@@ -137,16 +133,18 @@ safely and preserve it for manual inspection. The lifecycle does not promise
 automatic stale cleanup for that fallback. Enable Windows Developer Mode so
 agent symlinks can be used when rename/delete cleanup must remain automatic.
 
+Claude Code integration is skills-only: `scripts/link-claude-skills.sh`
+(POSIX/WSL) or `scripts/link-claude-skills.ps1` (native Windows) links each
+Skill into the Claude Code user Skill directory; Skills resolve their bundled
+scripts from either runtime home.
+
 ## Profiles are explicit
 
 The portable core never auto-selects a profile. A target repository or user
 must explicitly choose one:
 
-- `dreamweaver`: historical project paths, exact-Editor policy, and case
-  evidence;
-- `multica`: event-driven issue/run dispatch as an optional orchestrator
-  adapter;
-- `google-drive`: mounted-folder publication for verified playtest evidence.
+- `dreamweaver`: project workspace facts and historical retargeting case
+  evidence.
 
 Profiles can narrow paths and delivery adapters. They cannot expand user
 authority or weaken validation, licensing, or workspace boundaries.

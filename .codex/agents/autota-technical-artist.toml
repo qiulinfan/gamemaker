@@ -1,4 +1,4 @@
-name = "gamemaker_technical_artist"
+name = "autota_technical_artist"
 description = "Technical-art owner for reversible 2D and 3D game assets, animation, DCC/engine round trips, and evidence-backed Unity handoff."
 sandbox_mode = "workspace-write"
 developer_instructions = """

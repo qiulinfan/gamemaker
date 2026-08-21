@@ -8,10 +8,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) {
-    throw 'Gamemaker link.ps1 requires PowerShell 7 or newer (pwsh).'
+    throw 'AutoTA link.ps1 requires PowerShell 7 or newer (pwsh).'
 }
 if (-not $IsWindows) {
-    throw 'Gamemaker link.ps1 is the Windows lifecycle entrypoint; use ./scripts/link.sh on macOS or Linux.'
+    throw 'AutoTA link.ps1 is the Windows lifecycle entrypoint; use ./scripts/link.sh on macOS or Linux.'
 }
 . (Join-Path $PSScriptRoot 'LinkContract.ps1')
 
@@ -22,11 +22,11 @@ if ([string]::IsNullOrWhiteSpace($CodexHome)) {
 if ([string]::IsNullOrWhiteSpace($CodexHome)) {
     $CodexHome = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex'
 }
-$resolvedCodexHome = Resolve-GamemakerPath -Path $CodexHome
+$resolvedCodexHome = Resolve-AutoTAPath -Path $CodexHome
 
 # Inventory construction runs the complete validator before any CODEX_HOME write.
-$inventory = Get-GamemakerInventory -RepositoryRoot $repositoryRoot -CodexHome $resolvedCodexHome
-$receipt = Read-GamemakerReceipt `
+$inventory = Get-AutoTAInventory -RepositoryRoot $repositoryRoot -CodexHome $resolvedCodexHome
+$receipt = Read-AutoTAReceipt `
     -RepositoryRoot $repositoryRoot `
     -CodexHome $resolvedCodexHome `
     -ReceiptPath ([string]$inventory.receipt_path)
@@ -49,21 +49,21 @@ foreach ($old in $oldEntries) {
         $keptReceiptEntries.Add($old)
         continue
     }
-    if (-not (Remove-GamemakerReceiptEntry -Entry $old)) {
+    if (-not (Remove-AutoTAReceiptEntry -Entry $old)) {
         $keptReceiptEntries.Add($old)
         $staleFailures = $true
     }
 }
 
 if ($staleFailures) {
-    Write-GamemakerReceipt -Inventory $inventory -Entries @($keptReceiptEntries)
-    throw 'One or more stale Gamemaker entries could not be proven owned; current links were not changed.'
+    Write-AutoTAReceipt -Inventory $inventory -Entries @($keptReceiptEntries)
+    throw 'One or more stale AutoTA entries could not be proven owned; current links were not changed.'
 }
 
 $installed = [System.Collections.Generic.List[object]]::new()
 try {
     foreach ($entry in @($inventory.entries)) {
-        $result = New-GamemakerManagedLink -Entry $entry -Force:$Force
+        $result = New-AutoTAManagedLink -Entry $entry -Force:$Force
         $installed.Add([ordered]@{
             inventory_id = [string]$entry.inventory_id
             source = [string]$entry.source
@@ -72,7 +72,7 @@ try {
             link_type = [string]$result.LinkType
         })
     }
-    Write-GamemakerReceipt -Inventory $inventory -Entries @($installed)
+    Write-AutoTAReceipt -Inventory $inventory -Entries @($installed)
 }
 catch {
     # Keep an atomic receipt for every successfully observed/created managed entry
@@ -85,12 +85,12 @@ catch {
         }
     }
     if ($partial.Count -gt 0) {
-        Write-GamemakerReceipt -Inventory $inventory -Entries $partial
+        Write-AutoTAReceipt -Inventory $inventory -Entries $partial
     }
     throw
 }
 
-Write-Host "Gamemaker links installed from $repositoryRoot"
+Write-Host "AutoTA links installed from $repositoryRoot"
 Write-Host "Canonical product root: $($inventory.entries[-1].destination)"
 Write-Host "Install receipt: $($inventory.receipt_path)"
 Write-Host 'Restart Codex so Skill, workflow, profile, and custom-agent metadata reload.'

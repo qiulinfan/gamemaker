@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Receipt-backed POSIX link lifecycle for the Gamemaker bundle."""
+"""Receipt-backed POSIX link lifecycle for the AutoTA bundle."""
 
 from __future__ import annotations
 
@@ -82,7 +82,7 @@ def link(root: Path, codex_home: Path, force: bool) -> None:
     if stale_failure:
         write_receipt(receipt_path, inventory, kept)
         raise ContractError(
-            "One or more stale Gamemaker entries could not be proven owned; current links were not changed"
+            "One or more stale AutoTA entries could not be proven owned; current links were not changed"
         )
 
     installed: list[dict[str, str]] = []
@@ -97,7 +97,7 @@ def link(root: Path, codex_home: Path, force: bool) -> None:
             write_receipt(receipt_path, inventory, list(by_destination.values()))
         raise
     write_receipt(receipt_path, inventory, installed)
-    print(f"Gamemaker links installed from {inventory['repository_root']}")
+    print(f"AutoTA links installed from {inventory['repository_root']}")
     print(f"Canonical product root: {desired_product_root(inventory)}")
     print(f"Install receipt: {receipt_path}")
 
@@ -106,15 +106,15 @@ def desired_product_root(inventory: dict[str, Any]) -> str:
     return next(
         entry["destination"]
         for entry in inventory["entries"]
-        if entry["inventory_id"] == "product-root:gamemaker"
+        if entry["inventory_id"] == "product-root:autota"
     )
 
 
 def unlink(root: Path, codex_home: Path) -> None:
-    receipt_path = codex_home / "state" / "gamemaker" / "install-receipt.json"
+    receipt_path = codex_home / "state" / "autota" / "install-receipt.json"
     receipt = read_receipt(receipt_path, codex_home, root)
     if receipt is None:
-        print("No Gamemaker install receipt exists; nothing was removed.")
+        print("No AutoTA install receipt exists; nothing was removed.")
         return
     remaining = [entry for entry in receipt["entries"] if not remove_receipt_entry(entry)]
     if remaining:
@@ -130,14 +130,14 @@ def unlink(root: Path, codex_home: Path) -> None:
         receipt_path.parent.rmdir()
     except OSError:
         pass
-    print("Gamemaker receipt-owned links removed. Unrelated Codex files were preserved.")
+    print("AutoTA receipt-owned links removed. Unrelated Codex files were preserved.")
 
 
 def doctor(root: Path, codex_home: Path, skip_link_check: bool) -> None:
     inventory = build_inventory(root, codex_home)
     if skip_link_check:
-        print("GAMEMAKER_BUNDLE_OK")
-        print("GAMEMAKER_DOCTOR_OK")
+        print("AUTOTA_BUNDLE_OK")
+        print("AUTOTA_DOCTOR_OK")
         return
     receipt_path = Path(inventory["receipt_path"])
     receipt = read_receipt(receipt_path, codex_home, root)
@@ -157,8 +157,8 @@ def doctor(root: Path, codex_home: Path, skip_link_check: bool) -> None:
         if state != "owned":
             raise ContractError(f"Managed link is not owned: {destination}; state={state}")
         print(f"LINK OK {destination}")
-    print("GAMEMAKER_BUNDLE_OK")
-    print("GAMEMAKER_DOCTOR_OK")
+    print("AUTOTA_BUNDLE_OK")
+    print("AUTOTA_DOCTOR_OK")
 
 
 def main() -> int:

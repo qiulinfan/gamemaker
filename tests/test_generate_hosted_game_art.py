@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills" / "generate-hosted-game-art"
 CLIENT = SKILL / "scripts" / "hosted_art_client.py"
 
-SPEC = importlib.util.spec_from_file_location("gamemaker_hosted_art_client", CLIENT)
+SPEC = importlib.util.spec_from_file_location("autota_hosted_art_client", CLIENT)
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)

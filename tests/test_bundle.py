@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR_PATH = ROOT / "scripts" / "validate_bundle.py"
-SPEC = importlib.util.spec_from_file_location("gamemaker_validate_bundle", VALIDATOR_PATH)
+SPEC = importlib.util.spec_from_file_location("autota_validate_bundle", VALIDATOR_PATH)
 assert SPEC is not None and SPEC.loader is not None
 VALIDATOR = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(VALIDATOR)
@@ -28,12 +28,9 @@ class BundleContractTests(unittest.TestCase):
             {
                 "auto-ta",
                 "character-rig-animation-alignment",
-                "coordinate-game-production",
                 "create-2d-game-art",
-                "discuss-game-design",
                 "generate-hosted-game-art",
                 "search-game-art",
-                "write-game-design-brief",
             },
             names,
         )
@@ -42,7 +39,7 @@ class BundleContractTests(unittest.TestCase):
         with (ROOT / "workflow.bundle.toml").open("rb") as handle:
             manifest = tomllib.load(handle)
         self.assertEqual(
-            {"dreamweaver", "multica", "google-drive"},
+            {"dreamweaver"},
             {entry["id"] for entry in manifest["profiles"]},
         )
         self.assertTrue(all(entry["enabled_by_default"] is False for entry in manifest["profiles"]))
@@ -87,8 +84,8 @@ class BundleContractTests(unittest.TestCase):
     def test_readme_documents_product_root_receipt_and_runtime_contracts(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         for marker in (
-            "${CODEX_HOME}/workflow-products/gamemaker",
-            "${CODEX_HOME}/state/gamemaker/install-receipt.json",
+            "${CODEX_HOME}/workflow-products/autota",
+            "${CODEX_HOME}/state/autota/install-receipt.json",
             "iTerm2",
             "`zsh`",
             "PowerShell 7+",

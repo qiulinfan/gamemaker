@@ -4,7 +4,7 @@ $script:IsWindowsHost = [System.Runtime.InteropServices.RuntimeInformation]::IsO
     [System.Runtime.InteropServices.OSPlatform]::Windows
 )
 
-function Resolve-GamemakerPath {
+function Resolve-AutoTAPath {
     param(
         [Parameter(Mandatory = $true)][string]$Path,
         [string]$RelativeTo
@@ -26,7 +26,7 @@ function Resolve-GamemakerPath {
     )
 }
 
-function Get-GamemakerPython {
+function Get-AutoTAPython {
     $python = Get-Command python, python3 -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $python) {
         throw 'Python 3.11+ is required for validated link inventory.'
@@ -34,36 +34,36 @@ function Get-GamemakerPython {
     return $python.Source
 }
 
-function Get-GamemakerInventory {
+function Get-AutoTAInventory {
     param(
         [Parameter(Mandatory = $true)][string]$RepositoryRoot,
         [Parameter(Mandatory = $true)][string]$CodexHome
     )
-    $python = Get-GamemakerPython
+    $python = Get-AutoTAPython
     $contractScript = Join-Path $RepositoryRoot 'scripts\link_contract.py'
     $output = @(& $python $contractScript inventory --root $RepositoryRoot --codex-home $CodexHome 2>&1)
     if ($LASTEXITCODE -ne 0) {
-        throw "Gamemaker bundle validation/link inventory failed before mutation:`n$($output -join "`n")"
+        throw "AutoTA bundle validation/link inventory failed before mutation:`n$($output -join "`n")"
     }
     return (($output -join "`n") | ConvertFrom-Json -Depth 20)
 }
 
-function Read-GamemakerReceipt {
+function Read-AutoTAReceipt {
     param(
         [Parameter(Mandatory = $true)][string]$RepositoryRoot,
         [Parameter(Mandatory = $true)][string]$CodexHome,
         [Parameter(Mandatory = $true)][string]$ReceiptPath
     )
-    $python = Get-GamemakerPython
+    $python = Get-AutoTAPython
     $contractScript = Join-Path $RepositoryRoot 'scripts\link_contract.py'
     $output = @(& $python $contractScript receipt --root $RepositoryRoot --codex-home $CodexHome --receipt $ReceiptPath 2>&1)
     if ($LASTEXITCODE -ne 0) {
-        throw "Invalid Gamemaker install receipt; refusing link mutation:`n$($output -join "`n")"
+        throw "Invalid AutoTA install receipt; refusing link mutation:`n$($output -join "`n")"
     }
     return (($output -join "`n") | ConvertFrom-Json -Depth 20)
 }
 
-function Write-GamemakerReceipt {
+function Write-AutoTAReceipt {
     param(
         [Parameter(Mandatory = $true)]$Inventory,
         [Parameter(Mandatory = $true)][object[]]$Entries
@@ -73,7 +73,7 @@ function Write-GamemakerReceipt {
     [System.IO.Directory]::CreateDirectory($parent) | Out-Null
     $receipt = [ordered]@{
         schema_version = 1
-        product = 'gamemaker'
+        product = 'autota'
         repository_root = [string]$Inventory.repository_root
         entries = @($Entries)
     }
@@ -94,7 +94,7 @@ function Write-GamemakerReceipt {
     }
 }
 
-function Get-GamemakerLinkTargets {
+function Get-AutoTALinkTargets {
     param([Parameter(Mandatory = $true)][string]$Destination)
     $item = Get-Item -Force -LiteralPath $Destination -ErrorAction SilentlyContinue
     if ($null -eq $item) {
@@ -104,7 +104,7 @@ function Get-GamemakerLinkTargets {
         $rawTarget = @($item.Target) | Select-Object -First 1
         if (-not [string]::IsNullOrWhiteSpace([string]$rawTarget)) {
             return @(
-                Resolve-GamemakerPath -Path ([string]$rawTarget) -RelativeTo (Split-Path -Parent $Destination)
+                Resolve-AutoTAPath -Path ([string]$rawTarget) -RelativeTo (Split-Path -Parent $Destination)
             )
         }
     }
@@ -116,7 +116,7 @@ function Get-GamemakerLinkTargets {
                 $rawTargets |
                     Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
                     ForEach-Object {
-                        Resolve-GamemakerPath -Path ($volumeRoot + ([string]$_).Trim())
+                        Resolve-AutoTAPath -Path ($volumeRoot + ([string]$_).Trim())
                     }
             )
         }
@@ -124,7 +124,7 @@ function Get-GamemakerLinkTargets {
     return @()
 }
 
-function Get-GamemakerLinkState {
+function Get-AutoTALinkState {
     param(
         [Parameter(Mandatory = $true)][string]$ExpectedSource,
         [Parameter(Mandatory = $true)][string]$Destination,
@@ -134,11 +134,11 @@ function Get-GamemakerLinkState {
     if ($null -eq $item) {
         return [pscustomobject]@{ Status = 'Absent'; LinkType = $null; Targets = @() }
     }
-    $targets = @(Get-GamemakerLinkTargets -Destination $Destination)
+    $targets = @(Get-AutoTALinkTargets -Destination $Destination)
     if ($targets.Count -eq 0) {
         return [pscustomobject]@{ Status = 'RealItem'; LinkType = [string]$item.LinkType; Targets = @() }
     }
-    $expected = Resolve-GamemakerPath -Path $ExpectedSource
+    $expected = Resolve-AutoTAPath -Path $ExpectedSource
     $targetMatches = @($targets | Where-Object {
         $_.Equals($expected, [System.StringComparison]::OrdinalIgnoreCase)
     }).Count -gt 0
@@ -152,9 +152,9 @@ function Get-GamemakerLinkState {
     }
 }
 
-function Remove-GamemakerReceiptEntry {
+function Remove-AutoTAReceiptEntry {
     param([Parameter(Mandatory = $true)]$Entry)
-    $state = Get-GamemakerLinkState `
+    $state = Get-AutoTALinkState `
         -ExpectedSource ([string]$Entry.source) `
         -Destination ([string]$Entry.destination) `
         -ExpectedLinkType ([string]$Entry.link_type)
@@ -174,14 +174,14 @@ function Remove-GamemakerReceiptEntry {
     return $true
 }
 
-function New-GamemakerManagedLink {
+function New-AutoTAManagedLink {
     param(
         [Parameter(Mandatory = $true)]$Entry,
         [switch]$Force
     )
-    $source = Resolve-GamemakerPath -Path ([string]$Entry.source)
-    $destination = Resolve-GamemakerPath -Path ([string]$Entry.destination)
-    $state = Get-GamemakerLinkState -ExpectedSource $source -Destination $destination
+    $source = Resolve-AutoTAPath -Path ([string]$Entry.source)
+    $destination = Resolve-AutoTAPath -Path ([string]$Entry.destination)
+    $state = Get-AutoTALinkState -ExpectedSource $source -Destination $destination
     if ($state.Status -eq 'Owned') {
         Write-Host "OK      $destination -> $source"
         return [pscustomobject]@{ LinkType = [string]$state.LinkType; Created = $false }

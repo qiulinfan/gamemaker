@@ -27,9 +27,9 @@ def load_script(name: str, filename: str):
     return module
 
 
-AUDIT = load_script("gamemaker_artifact_audit", "audit_artifact.py")
-INVENTORY = load_script("gamemaker_blender_inventory", "blender_asset_inventory.py")
-RUNNER = load_script("gamemaker_blender_inventory_runner", "run_blender_inventory.py")
+AUDIT = load_script("autota_artifact_audit", "audit_artifact.py")
+INVENTORY = load_script("autota_blender_inventory", "blender_asset_inventory.py")
+RUNNER = load_script("autota_blender_inventory_runner", "run_blender_inventory.py")
 
 
 class ArtifactAcquisitionSecurityTests(unittest.TestCase):

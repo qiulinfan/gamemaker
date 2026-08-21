@@ -744,7 +744,7 @@ def _fresh_replay_audits(
         )
         return
 
-    with tempfile.TemporaryDirectory(prefix="gamemaker-auto-ta-replay-") as raw_root:
+    with tempfile.TemporaryDirectory(prefix="autota-auto-ta-replay-") as raw_root:
         output_root = Path(raw_root).resolve()
         _replay_audit(
             source,

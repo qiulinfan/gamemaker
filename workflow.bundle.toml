@@ -1,9 +1,9 @@
 schema_version = 1
 
 [bundle]
-name = "gamemaker"
-version = "0.4.0"
-description = "Portable evidence-driven game-production workflow bundle for Codex focused on coordination, design, and 2D/3D art production"
+name = "autota"
+version = "1.0.0"
+description = "AutoTA: an evidence-driven technical-art pipeline (search, 2D, 3D, rig alignment, hosted generation) that sits midstream between design briefs and engine integration"
 skills_root = "skills"
 workflows_root = "workflows"
 profiles_root = "profiles"
@@ -30,24 +30,9 @@ reason = "No license file or declared repository license was found; owner select
 [link]
 skills_destination = "skills"
 agents_destination = "agents"
-product_destination = "workflow-products/gamemaker"
-receipt_destination = "state/gamemaker/install-receipt.json"
+product_destination = "workflow-products/autota"
+receipt_destination = "state/autota/install-receipt.json"
 mode = "direct-working-tree-link"
-
-[[skills]]
-name = "coordinate-game-production"
-path = "skills/coordinate-game-production"
-phases = ["intake", "routing", "integration", "acceptance"]
-
-[[skills]]
-name = "write-game-design-brief"
-path = "skills/write-game-design-brief"
-phases = ["ready", "design"]
-
-[[skills]]
-name = "discuss-game-design"
-path = "skills/discuss-game-design"
-phases = ["discovery", "design"]
 
 [[skills]]
 name = "search-game-art"
@@ -75,56 +60,21 @@ path = "skills/character-rig-animation-alignment"
 phases = ["art-production", "engine-integration", "verification"]
 
 [[workflows]]
-name = "game-production"
-path = "workflows/game-production.md"
-entry_skill = "coordinate-game-production"
-
-[[workflows]]
-name = "agile-iteration"
-path = "workflows/agile-iteration.md"
-entry_skill = "coordinate-game-production"
-
-[[workflows]]
 name = "handoff-contract"
 path = "workflows/handoff-contract.md"
-entry_skill = "coordinate-game-production"
+entry_skill = "auto-ta"
 
 [[agents]]
-name = "gamemaker_producer"
-path = ".codex/agents/gamemaker-producer.toml"
-primary_skills = ["coordinate-game-production"]
-
-[[agents]]
-name = "gamemaker_designer"
-path = ".codex/agents/gamemaker-designer.toml"
-primary_skills = ["write-game-design-brief", "discuss-game-design"]
-
-[[agents]]
-name = "gamemaker_technical_artist"
-path = ".codex/agents/gamemaker-technical-artist.toml"
+name = "autota_technical_artist"
+path = ".codex/agents/autota-technical-artist.toml"
 primary_skills = ["create-2d-game-art", "auto-ta", "character-rig-animation-alignment", "generate-hosted-game-art"]
 
 [[agents]]
-name = "gamemaker_art_scout"
-path = ".codex/agents/gamemaker-art-scout.toml"
+name = "autota_art_scout"
+path = ".codex/agents/autota-art-scout.toml"
 primary_skills = ["search-game-art"]
-
-[[agents]]
-name = "gamemaker_reviewer"
-path = ".codex/agents/gamemaker-reviewer.toml"
-primary_skills = ["coordinate-game-production"]
 
 [[profiles]]
 id = "dreamweaver"
 path = "profiles/dreamweaver/profile.toml"
-enabled_by_default = false
-
-[[profiles]]
-id = "multica"
-path = "profiles/multica/profile.toml"
-enabled_by_default = false
-
-[[profiles]]
-id = "google-drive"
-path = "profiles/google-drive/profile.toml"
 enabled_by_default = false

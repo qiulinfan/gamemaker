@@ -1,4 +1,0 @@
-interface:
-  display_name: "Write Game Design Brief"
-  short_description: "Turn an issue into an implementable game design brief"
-  default_prompt: "Use $write-game-design-brief to turn this issue into an implementable, testable game design brief."

@@ -83,22 +83,22 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
 
         skill_source = self.bundle_root / "skills" / "auto-ta"
         skill_link = codex_home / "skills" / "auto-ta"
-        agent_source = self.bundle_root / ".codex" / "agents" / "gamemaker-producer.toml"
-        agent_link = codex_home / "agents" / "gamemaker-producer.toml"
-        product_link = codex_home / "workflow-products" / "gamemaker"
-        receipt = codex_home / "state" / "gamemaker" / "install-receipt.json"
+        agent_source = self.bundle_root / ".codex" / "agents" / "autota-technical-artist.toml"
+        agent_link = codex_home / "agents" / "autota-technical-artist.toml"
+        product_link = codex_home / "workflow-products" / "autota"
+        receipt = codex_home / "state" / "autota" / "install-receipt.json"
         self.assertTrue(_points_directly_to(skill_source, skill_link))
         self.assertTrue(_points_directly_to(agent_source, agent_link))
         self.assertTrue(_points_directly_to(self.bundle_root, product_link))
         self.assertEqual(skill_source.resolve(), skill_link.resolve())
         receipt_value = json.loads(receipt.read_text(encoding="utf-8"))
-        self.assertEqual("gamemaker", receipt_value["product"])
+        self.assertEqual("autota", receipt_value["product"])
         self.assertEqual(20, len(receipt_value["entries"]))
 
         doctor = self.run_ps(
             "doctor.ps1", "-CodexHome", str(codex_home), cwd=unrelated_cwd
         )
-        self.assertIn("GAMEMAKER_DOCTOR_OK", doctor.stdout)
+        self.assertIn("AUTOTA_DOCTOR_OK", doctor.stdout)
 
         self.run_ps("unlink.ps1", "-CodexHome", str(codex_home))
         self.assertFalse(skill_link.exists())
@@ -118,7 +118,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
     @unittest.skipUnless(os.name == "nt", "Windows hard-link ownership behavior")
     def test_force_never_replaces_wrong_owner_hardlink(self) -> None:
         codex_home = self.fixture_root / "wrong-hardlink-home"
-        destination = codex_home / "agents" / "gamemaker-producer.toml"
+        destination = codex_home / "agents" / "autota-technical-artist.toml"
         destination.parent.mkdir(parents=True)
         other_source = self.fixture_root / "user-owned-agent.toml"
         other_source.write_text('name = "user_owned"\n', encoding="utf-8")
@@ -142,24 +142,24 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         cases = (
             "receipt-directory",
             "state-file",
-            "gamemaker-file",
+            "autota-file",
             "state-junction",
-            "gamemaker-junction",
+            "autota-junction",
         )
         for case in cases:
             with self.subTest(case=case):
                 codex_home = self.fixture_root / f"receipt-conflict-{case}"
                 external = self.fixture_root / f"receipt-external-{case}"
                 if case == "receipt-directory":
-                    (codex_home / "state/gamemaker/install-receipt.json").mkdir(
+                    (codex_home / "state/autota/install-receipt.json").mkdir(
                         parents=True
                     )
                 elif case == "state-file":
                     codex_home.mkdir()
                     (codex_home / "state").write_text("preserve", encoding="utf-8")
-                elif case == "gamemaker-file":
+                elif case == "autota-file":
                     (codex_home / "state").mkdir(parents=True)
-                    (codex_home / "state/gamemaker").write_text(
+                    (codex_home / "state/autota").write_text(
                         "preserve", encoding="utf-8"
                     )
                 else:
@@ -168,19 +168,19 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
                         junction_path = codex_home / "state"
                     else:
                         (codex_home / "state").mkdir(parents=True)
-                        junction_path = codex_home / "state/gamemaker"
+                        junction_path = codex_home / "state/autota"
                     external.mkdir()
                     (external / "marker.txt").write_text("preserve", encoding="utf-8")
                     environment = os.environ.copy()
-                    environment["GAMEMAKER_TEST_LINK"] = str(junction_path)
-                    environment["GAMEMAKER_TEST_TARGET"] = str(external)
+                    environment["AUTOTA_TEST_LINK"] = str(junction_path)
+                    environment["AUTOTA_TEST_TARGET"] = str(external)
                     created = subprocess.run(
                         [
                             self.pwsh,
                             "-NoLogo",
                             "-NoProfile",
                             "-Command",
-                            "New-Item -ItemType Junction -Path $env:GAMEMAKER_TEST_LINK -Target $env:GAMEMAKER_TEST_TARGET | Out-Null",
+                            "New-Item -ItemType Junction -Path $env:AUTOTA_TEST_LINK -Target $env:AUTOTA_TEST_TARGET | Out-Null",
                         ],
                         cwd=self.fixture_root,
                         env=environment,
@@ -194,8 +194,8 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
                 self.run_ps("link.ps1", "-CodexHome", str(codex_home), expect=1)
                 for relative in (
                     "skills/auto-ta",
-                    "agents/gamemaker-producer.toml",
-                    "workflow-products/gamemaker",
+                    "agents/autota-technical-artist.toml",
+                    "workflow-products/autota",
                 ):
                     self.assertFalse(os.path.lexists(codex_home / relative))
                 if external.exists():
@@ -215,15 +215,15 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
                 marker = external / "marker.txt"
                 marker.write_text("preserve", encoding="utf-8")
                 environment = os.environ.copy()
-                environment["GAMEMAKER_TEST_LINK"] = str(codex_home / parent_name)
-                environment["GAMEMAKER_TEST_TARGET"] = str(external)
+                environment["AUTOTA_TEST_LINK"] = str(codex_home / parent_name)
+                environment["AUTOTA_TEST_TARGET"] = str(external)
                 created = subprocess.run(
                     [
                         self.pwsh,
                         "-NoLogo",
                         "-NoProfile",
                         "-Command",
-                        "New-Item -ItemType Junction -Path $env:GAMEMAKER_TEST_LINK -Target $env:GAMEMAKER_TEST_TARGET | Out-Null",
+                        "New-Item -ItemType Junction -Path $env:AUTOTA_TEST_LINK -Target $env:AUTOTA_TEST_TARGET | Out-Null",
                     ],
                     cwd=self.fixture_root,
                     env=environment,
@@ -238,7 +238,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
                 self.assertEqual([marker], list(external.iterdir()))
                 self.assertFalse(
                     os.path.lexists(
-                        codex_home / "state/gamemaker/install-receipt.json"
+                        codex_home / "state/autota/install-receipt.json"
                     )
                 )
 
@@ -254,15 +254,15 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         marker = external / "marker.txt"
         marker.write_text("preserve", encoding="utf-8")
         environment = os.environ.copy()
-        environment["GAMEMAKER_TEST_LINK"] = str(codex_home / "agents")
-        environment["GAMEMAKER_TEST_TARGET"] = str(external)
+        environment["AUTOTA_TEST_LINK"] = str(codex_home / "agents")
+        environment["AUTOTA_TEST_TARGET"] = str(external)
         created = subprocess.run(
             [
                 self.pwsh,
                 "-NoLogo",
                 "-NoProfile",
                 "-Command",
-                "New-Item -ItemType Junction -Path $env:GAMEMAKER_TEST_LINK -Target $env:GAMEMAKER_TEST_TARGET | Out-Null",
+                "New-Item -ItemType Junction -Path $env:AUTOTA_TEST_LINK -Target $env:AUTOTA_TEST_TARGET | Out-Null",
             ],
             cwd=self.fixture_root,
             env=environment,
@@ -277,7 +277,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         self.assertEqual([marker], list(external.iterdir()))
         self.assertTrue(os.path.lexists(codex_home / "skills/auto-ta"))
         self.assertTrue(
-            os.path.lexists(codex_home / "workflow-products/gamemaker")
+            os.path.lexists(codex_home / "workflow-products/autota")
         )
 
     def test_bundle_validation_fails_before_codex_home_write(self) -> None:
@@ -321,12 +321,12 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         if not self.pwsh:
             self.skipTest("pwsh is unavailable")
         environment = os.environ.copy()
-        environment["GAMEMAKER_TEST_VOLUME_ROOT"] = Path(ROOT.anchor).as_posix()
+        environment["AUTOTA_TEST_VOLUME_ROOT"] = Path(ROOT.anchor).as_posix()
         command = (
-            ". $env:GAMEMAKER_TEST_CONTRACT; "
-            "Resolve-GamemakerPath -Path $env:GAMEMAKER_TEST_VOLUME_ROOT"
+            ". $env:AUTOTA_TEST_CONTRACT; "
+            "Resolve-AutoTAPath -Path $env:AUTOTA_TEST_VOLUME_ROOT"
         )
-        environment["GAMEMAKER_TEST_CONTRACT"] = str(
+        environment["AUTOTA_TEST_CONTRACT"] = str(
             self.bundle_root / "scripts/LinkContract.ps1"
         )
         result = subprocess.run(
@@ -345,7 +345,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         if not self.pwsh:
             self.skipTest("pwsh is unavailable")
         with tempfile.TemporaryDirectory(
-            prefix="gamemaker-codex-dangling-", dir=self.fixture_root
+            prefix="autota-codex-dangling-", dir=self.fixture_root
         ) as temporary:
             root = Path(temporary)
             codex_home = root / "home"
@@ -355,15 +355,15 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
             wrong_target.mkdir()
             destination = skill_root / "auto-ta"
             environment = os.environ.copy()
-            environment["GAMEMAKER_TEST_LINK"] = str(destination)
-            environment["GAMEMAKER_TEST_TARGET"] = str(wrong_target)
+            environment["AUTOTA_TEST_LINK"] = str(destination)
+            environment["AUTOTA_TEST_TARGET"] = str(wrong_target)
             created = subprocess.run(
                 [
                     self.pwsh,
                     "-NoLogo",
                     "-NoProfile",
                     "-Command",
-                    "New-Item -ItemType Junction -Path $env:GAMEMAKER_TEST_LINK -Target $env:GAMEMAKER_TEST_TARGET | Out-Null",
+                    "New-Item -ItemType Junction -Path $env:AUTOTA_TEST_LINK -Target $env:AUTOTA_TEST_TARGET | Out-Null",
                 ],
                 cwd=ROOT,
                 env=environment,
@@ -390,15 +390,15 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         stale_source.mkdir()
         stale_destination = codex_home / "skills" / "obsolete-skill"
         environment = os.environ.copy()
-        environment["GAMEMAKER_STALE_SOURCE"] = str(stale_source)
-        environment["GAMEMAKER_STALE_DEST"] = str(stale_destination)
+        environment["AUTOTA_STALE_SOURCE"] = str(stale_source)
+        environment["AUTOTA_STALE_DEST"] = str(stale_destination)
         created = subprocess.run(
             [
                 self.pwsh,
                 "-NoLogo",
                 "-NoProfile",
                 "-Command",
-                "New-Item -ItemType Junction -Path $env:GAMEMAKER_STALE_DEST -Target $env:GAMEMAKER_STALE_SOURCE | Out-Null",
+                "New-Item -ItemType Junction -Path $env:AUTOTA_STALE_DEST -Target $env:AUTOTA_STALE_SOURCE | Out-Null",
             ],
             cwd=self.bundle_root,
             env=environment,
@@ -408,7 +408,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, created.returncode, msg=created.stderr)
-        receipt_path = codex_home / "state" / "gamemaker" / "install-receipt.json"
+        receipt_path = codex_home / "state" / "autota" / "install-receipt.json"
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         receipt["entries"].append(
             {
@@ -434,15 +434,15 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
     def test_detached_hardlink_is_preserved_fail_safe(self) -> None:
         codex_home = self.fixture_root / "detached-hardlink-home"
         self.run_ps("link.ps1", "-CodexHome", str(codex_home))
-        source = self.bundle_root / ".codex" / "agents" / "gamemaker-obsolete.toml"
-        destination = codex_home / "agents" / "gamemaker-obsolete.toml"
+        source = self.bundle_root / ".codex" / "agents" / "autota-obsolete.toml"
+        destination = codex_home / "agents" / "autota-obsolete.toml"
         source.write_text('name = "obsolete"\n', encoding="utf-8")
         os.link(source, destination)
-        receipt_path = codex_home / "state" / "gamemaker" / "install-receipt.json"
+        receipt_path = codex_home / "state" / "autota" / "install-receipt.json"
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         receipt["entries"].append(
             {
-                "inventory_id": "agent:gamemaker_obsolete",
+                "inventory_id": "agent:autota_obsolete",
                 "source": str(source),
                 "destination": str(destination),
                 "kind": "file",
@@ -457,7 +457,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         self.assertTrue(destination.is_file())
         remaining = json.loads(receipt_path.read_text(encoding="utf-8"))
         self.assertEqual(
-            {"agent:gamemaker_obsolete"},
+            {"agent:autota_obsolete"},
             {entry["inventory_id"] for entry in remaining["entries"]},
         )
         destination.unlink()
@@ -468,7 +468,7 @@ class PowerShellLinkLifecycleTests(unittest.TestCase):
         codex_home = self.fixture_root / "corrupt-receipt-home"
         self.run_ps("link.ps1", "-CodexHome", str(codex_home))
         skill_link = codex_home / "skills" / "auto-ta"
-        receipt_path = codex_home / "state" / "gamemaker" / "install-receipt.json"
+        receipt_path = codex_home / "state" / "autota" / "install-receipt.json"
         original = json.loads(receipt_path.read_text(encoding="utf-8"))
 
         wrong = dict(original)
@@ -500,7 +500,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
         shell = shutil.which("sh")
         if not shell:
             self.skipTest("POSIX sh is unavailable")
-        with tempfile.TemporaryDirectory(prefix="gamemaker-posix-home-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="autota-posix-home-") as temporary:
             unrelated = Path(temporary) / "unrelated-game"
             unrelated.mkdir()
             subprocess.run(
@@ -531,7 +531,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
         stale_source = ROOT / "skills" / "obsolete-skill"
         self.assertFalse(stale_source.exists())
         try:
-            with tempfile.TemporaryDirectory(prefix="gamemaker-posix-stale-") as raw:
+            with tempfile.TemporaryDirectory(prefix="autota-posix-stale-") as raw:
                 codex_home = Path(raw)
                 subprocess.run(
                     [shell, str(ROOT / "scripts/link.sh"), str(codex_home)],
@@ -543,7 +543,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
                 stale_destination = codex_home / "skills" / "obsolete-skill"
                 stale_destination.symlink_to(stale_source, target_is_directory=True)
                 receipt_path = (
-                    codex_home / "state/gamemaker/install-receipt.json"
+                    codex_home / "state/autota/install-receipt.json"
                 )
                 receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
                 receipt["entries"].append(
@@ -584,13 +584,13 @@ class PosixLinkLifecycleTests(unittest.TestCase):
         shell = shutil.which("sh")
         if not shell:
             self.skipTest("POSIX sh is unavailable")
-        with tempfile.TemporaryDirectory(prefix="gamemaker-posix-conflicts-") as raw:
+        with tempfile.TemporaryDirectory(prefix="autota-posix-conflicts-") as raw:
             root = Path(raw)
             for case in (
                 "state-file",
-                "gamemaker-file",
+                "autota-file",
                 "state-symlink",
-                "gamemaker-symlink",
+                "autota-symlink",
             ):
                 with self.subTest(case=case):
                     codex_home = root / case
@@ -598,9 +598,9 @@ class PosixLinkLifecycleTests(unittest.TestCase):
                     if case == "state-file":
                         codex_home.mkdir()
                         (codex_home / "state").write_text("preserve", encoding="utf-8")
-                    elif case == "gamemaker-file":
+                    elif case == "autota-file":
                         (codex_home / "state").mkdir(parents=True)
-                        (codex_home / "state/gamemaker").write_text(
+                        (codex_home / "state/autota").write_text(
                             "preserve", encoding="utf-8"
                         )
                     else:
@@ -609,7 +609,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
                             symlink_path = codex_home / "state"
                         else:
                             (codex_home / "state").mkdir(parents=True)
-                            symlink_path = codex_home / "state/gamemaker"
+                            symlink_path = codex_home / "state/autota"
                         external.mkdir()
                         (external / "marker").write_text("preserve", encoding="utf-8")
                         symlink_path.symlink_to(external, target_is_directory=True)
@@ -625,7 +625,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
                     self.assertFalse(os.path.lexists(codex_home / "skills/auto-ta"))
                     self.assertFalse(
                         os.path.lexists(
-                            codex_home / "workflow-products/gamemaker"
+                            codex_home / "workflow-products/autota"
                         )
                     )
                     if external.exists():
@@ -637,7 +637,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
         shell = shutil.which("sh")
         if not shell:
             self.skipTest("POSIX sh is unavailable")
-        with tempfile.TemporaryDirectory(prefix="gamemaker-posix-destinations-") as raw:
+        with tempfile.TemporaryDirectory(prefix="autota-posix-destinations-") as raw:
             root = Path(raw)
             for parent_name in ("skills", "agents", "workflow-products"):
                 with self.subTest(parent=parent_name):
@@ -662,7 +662,7 @@ class PosixLinkLifecycleTests(unittest.TestCase):
                     self.assertEqual([marker], list(external.iterdir()))
                     self.assertFalse(
                         os.path.lexists(
-                            codex_home / "state/gamemaker/install-receipt.json"
+                            codex_home / "state/autota/install-receipt.json"
                         )
                     )
 

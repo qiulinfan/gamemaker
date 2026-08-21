@@ -100,7 +100,7 @@ class SpritePipelineIntegrationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.assertIsNotNone(
             shutil.which("uv"),
-            "uv is a required Gamemaker runtime; run doctor before tests",
+            "uv is a required AutoTA runtime; run doctor before tests",
         )
         temp_parent = ROOT / "Temp"
         temp_parent.mkdir(exist_ok=True)

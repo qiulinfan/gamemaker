@@ -54,7 +54,7 @@ gates:
     reason: ""
 modifications: []
 limitations: []
-next_owner: gamemaker-technical-artist
+next_owner: autota-technical-artist
 next_action: Integrate the hash-bound delivery
 ```
 

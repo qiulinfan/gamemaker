@@ -1,5 +1,5 @@
 #!/bin/sh
-# Skills-only Claude Code linker for the gamemaker product checkout.
+# Skills-only Claude Code linker for the autota product checkout.
 #
 # Links each skills/<name> of this checkout into the Claude Code user Skill
 # directory as an individually owned symlink, so local edits are visible
@@ -39,7 +39,7 @@ for existing in "$claude_skills_dir"/*; do
     continue
   fi
   unlink "$existing"
-  printf 'removed stale gamemaker Skill link: %s\n' "$existing"
+  printf 'removed stale autota Skill link: %s\n' "$existing"
 done
 
 linked=0
@@ -63,5 +63,5 @@ for source_dir in "$skills_repo_dir"/*/; do
   linked=$((linked + 1))
 done
 
-printf 'ok: linked %s gamemaker Skills into %s (skills-only; agents and workflows stay Codex-only)\n' \
+printf 'ok: linked %s autota Skills into %s (skills-only; agents and workflows stay Codex-only)\n' \
   "$linked" "$claude_skills_dir"
